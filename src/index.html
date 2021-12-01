@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Envato Statements</title>
+    <meta http-equiv="refresh" content="900" id="refresh-timeout" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/styles.css" />
+    <link
+      rel="shortcut icon"
+      href="./assets/img/favicon.ico"
+      type="image/x-icon"
+    />
+    <script defer type="module" src="app.ts"></script>
+  </head>
+  <body class="loading">
+    <div class="body">
+      <div id="data-container" class="relative">
+        <div class="countdown-block">
+          <div>
+            <span>Refresh Countdown: </span>
+            <span id="countdown"></span>
+          </div>
+          <div>
+            <span>Last Update: </span>
+            <span id="last-update">12:00</span>
+          </div>
+        </div>
+
+        <section class="new-sales block-separator hidden">
+          <h2>New Sales</h2>
+          <div id="new-sales"></div>
+        </section>
+
+        <div class="days flex two-cols block-separator">
+          <section class="today">
+            <h2><span id="clock"></span></h2>
+            <div id="day-sales"></div>
+          </section>
+          <section class="yesterday">
+            <h2>Yesterday</h2>
+            <div id="yesterday-sales"></div>
+          </section>
+        </div>
+
+        <div class="weeks flex two-cols block-separator">
+          <section class="current-week">
+            <h2>Current Week</h2>
+            <div id="current-week-sales"></div>
+          </section>
+          <section class="prev-week">
+            <h2>Previous Week</h2>
+            <div id="previous-week-sales"></div>
+          </section>
+        </div>
+
+        <div class="months flex two-cols block-separator">
+          <section>
+            <h2>Current Month</h2>
+            <div id="current-month"></div>
+          </section>
+          <section>
+            <h2>Previous Month</h2>
+            <div id="previous-month"></div>
+          </section>
+        </div>
+
+        <section id="days-earnings" class="block-separator canvas">
+          <h2>Days Overview</h2>
+        </section>
+
+        <section id="months-earnings" class="block-separator canvas">
+          <h2>Months Overview</h2>
+        </section>
+      </div>
+
+      <div id="error-container" class="hidden"></div>
+    </div>
+
+    <div id="loader">
+      <img src="./assets/img/loader.svg" alt="loader" width="40" height="40" />
+    </div>
+  </body>
+</html>

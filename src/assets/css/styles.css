@@ -1,0 +1,133 @@
+body {
+  font-family: Tahoma, Arial;
+  background: #eee;
+  font-size: 16px;
+  line-height: 1.5em;
+}
+h2 {
+  margin-top: 0;
+}
+dl {
+  display: flex;
+  max-width: 250px;
+  margin: 0 0 3px 0;
+}
+dt,
+dd {
+  border-bottom: 1px dashed #ccc;
+}
+dt {
+  flex-grow: 1;
+}
+dd {
+  margin: 0;
+}
+section h3 {
+  margin: 0 0 5px;
+}
+.body {
+  width: 95%;
+  max-width: 1100px;
+  margin: 50px auto 140px;
+  background: #fff;
+  color: #333;
+  box-shadow: 0px 25px 30px 0 rgba(0, 0, 0, 0.1);
+  padding: 50px;
+  box-sizing: border-box;
+  position: relative;
+}
+.relative {
+  position: relative;
+}
+.hidden {
+  display: none;
+}
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.flex-grow1 {
+  flex-grow: 1;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.two-cols > section {
+  width: 50%;
+}
+.block-separator {
+  padding-bottom: 25px;
+  border-bottom: 1px dashed #999;
+  margin-bottom: 30px;
+}
+#error-container {
+  color: rgb(163, 4, 4);
+  font-weight: bold;
+  font-size: 16px;
+}
+#new-sales {
+  color: rgb(168, 36, 3);
+}
+.countdown-block {
+  position: absolute;
+  right: 0;
+  text-align: right;
+  font-size: 13px;
+  line-height: 1.5em;
+}
+.loading {
+  overflow: hidden;
+}
+.loading #loader {
+  display: flex;
+}
+.loading .body {
+  filter: blur(5px);
+}
+#loader {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+#loader img {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .two-cols {
+    flex-direction: column;
+  }
+  .two-cols > section {
+    width: 100%;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #111;
+  }
+  .body {
+    background: #222;
+    color: #eee;
+  }
+  body h2 {
+    color: #fff;
+  }
+  body h3 {
+    color: #ccc;
+  }
+  body .block-separator {
+    border-bottom: 1px dashed #444;
+  }
+  #loader {
+    background: rgba(0, 0, 0, 0.9);
+  }
+}
