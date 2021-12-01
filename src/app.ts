@@ -73,9 +73,6 @@ class EnvatoStatement {
     };
   }
 
-  /**
-   * setup page componenet
-   */
   private async setupComponents() {
     toggleLoader(Toggler.Show);
 
@@ -90,9 +87,6 @@ class EnvatoStatement {
     toggleLoader(Toggler.Hide);
   }
 
-  /**
-   * Save fetched data to localStorage
-   */
   private cacheFetchedData(): void {
     // save fetched data of by periods to localStorage
     for (let period in this.periods) {
@@ -115,13 +109,7 @@ class EnvatoStatement {
     }
   }
 
-  /**
-   * render page components
-   */
   private renderPage(): void {
-    // TEST WITH LOCAL DATA
-    // const today: PeriodStatistics = await this.fetchLocal();
-    // const newSales = this.findNewSales(today);
     renderNewSales(this.statementsSet[Periods.Today]);
     renderDaysAndWeeks(this.statementsSet);
     renderMonths(this.salesByMonth);
@@ -169,12 +157,6 @@ class EnvatoStatement {
     // return false because all necessary data is available
     return false;
   }
-
-  // async fetchLocal() {
-  //   const url = 'http://localhost:1234/demodata.json';
-  //   let response = await fetch(url);
-  //   return await response.json();
-  // }
 
   /**
    * Prepare fetched data for rendering

@@ -85,8 +85,14 @@ export const getYesterdayDate = function (): string {
   return convertDateToString(new Date(getAUTime().getTime() - ONEDAY));
 };
 
-export const getLocalTimeOfOrder = function (dateString: string): string {
+export const getLocalTimeOfOrder = function (
+  dateString: string | Date
+): string {
   // parse date string
+  if (typeof dateString === 'object') {
+    // get first 5 characters from locale time string
+    return dateString.toLocaleTimeString(LOCAL_LOCALE).slice(0, 5);
+  }
   const [date, time, offset] = dateString.split(' ');
   const [year, month, day] = date.split('-');
   const [hour, minute, second] = time.split(':');
@@ -111,11 +117,11 @@ export const getLocalTimeOfOrder = function (dateString: string): string {
   // return string of local order time
   return new Date(localOrderTimeinMilisec)
     .toLocaleTimeString(LOCAL_LOCALE)
-    .slice(0, 5); // get first 5 characters from PL locale time string
+    .slice(0, 5); // get first 5 characters from locale time string
 };
 
 export const getClockTime = function (): string {
-  const AUTime: Date = getAUTime(true);
+  const AUTime: Date = getAUTime();
   // compile date string
   const date: string = new Intl.DateTimeFormat(CURRENCY_LOCALE, {
     weekday: 'long',
@@ -137,8 +143,11 @@ export const getShortMonthName = function (date: Date): string {
 };
 
 export const convertDateStringToMiliseconds = function (
-  dateString: string
+  dateString: string | Date
 ): number {
+  if (typeof dateString === 'object') {
+    return dateString.getTime();
+  }
   const [year, month, day] = dateString.split('-');
   const date = getAUTime();
   const dateCopy = new Date(date);
