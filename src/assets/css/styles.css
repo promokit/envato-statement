@@ -152,7 +152,8 @@ canvas {
 .two-cols > section {
   width: 50%;
 }
-.info-block {
+.info-block > section,
+section.info-block {
   margin-bottom: 9rem;
 }
 .error {
@@ -191,7 +192,8 @@ canvas {
 .loading #loader {
   display: flex;
 }
-.loading .body {
+.loading .body,
+.loading .countdown-block {
   filter: blur(5px);
 }
 #loader {
@@ -215,6 +217,22 @@ canvas {
   }
   .two-cols > section {
     width: 100%;
+  }
+  h2 {
+    font-size: 2.5em;
+  }
+  h3 {
+    font-size: 2em;
+  }
+  .info-block > section,
+  section.info-block {
+    margin-bottom: 5rem;
+  }
+  .countdown-block {
+    position: relative;
+  }
+  .body {
+    margin-top: 0;
   }
 }
 

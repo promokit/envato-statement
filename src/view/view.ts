@@ -98,7 +98,7 @@ export const renderDaysAndWeeks = function (dataSet: StatementsSet): void {
     renderBlock(period, dataSet[period]);
   });
 
-  const twoWeekData = Object.assign(
+  const twoWeeksData = Object.assign(
     dataSet[Periods.CurrentWeek].ordersPerDay,
     dataSet[Periods.PreviousWeek].ordersPerDay
   );
@@ -109,7 +109,7 @@ export const renderDaysAndWeeks = function (dataSet: StatementsSet): void {
   );
 
   Object.entries(datesList).forEach(([date, _]) => {
-    datesList[date] = twoWeekData[date] ? twoWeekData[date] : 0;
+    datesList[date] = twoWeeksData[date] ? twoWeeksData[date] : 0;
   });
 
   renderDaysGraph(datesList);

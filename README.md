@@ -16,9 +16,22 @@ Clone app to your computer using
 git clone https://github.com/promokit/envato-statement.git
 ```
 
+Create .env file in the root of project and add your Envato token like this
+
+```bash
+TOKEN=5WEPQrRQXtbWF8ETspQioIDYMlHeFLrq
+```
+
+You can generate a new token at https://build.envato.com/create-token.
+
 Installation is straight forward using NPM or Yarn:
 
 ```bash
-# Using NPM
 npm install
+```
+
+To compile project just run:
+
+```bash
+npm run build
 ```
