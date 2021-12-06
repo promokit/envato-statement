@@ -7,8 +7,8 @@ import {
   renderHeading,
   renderStatistics,
   renderSalesList,
-  renderCurrentMonth,
   renderAverage,
+  renderEstimate,
 } from './templates';
 import {
   DATA_CONTAINER,
@@ -23,6 +23,7 @@ import {
   PREVIOUS_MONTH,
   LOADER_CLASS,
   GRAPH_MONTHS,
+  WEEKDAYS_NUM,
 } from '../constants';
 import {
   getWeekDay,
@@ -52,15 +53,22 @@ const renderBlock = function (period: string, data: PeriodStatistics): void {
   }
 
   if (period === Periods.CurrentWeek || period === Periods.PreviousWeek) {
-    markup += renderWeekHeading(
-      totalEarnings,
-      salesNumber,
-      period === Periods.CurrentWeek
-    );
+    markup += renderHeading(totalEarnings, salesNumber);
 
     Object.entries(salesStatistics).forEach(
       (entry) => (markup += renderStatistics(entry))
     );
+
+    const average: number =
+      totalEarnings /
+      (period === Periods.CurrentWeek ? getWeekDay() : WEEKDAYS_NUM);
+
+    markup += renderAverage(average);
+
+    if (period === Periods.CurrentWeek) {
+      const estimated: number = (totalEarnings / 1) * WEEKDAYS_NUM;
+      markup += renderEstimate(estimated);
+    }
   }
 
   switch (period) {
@@ -79,15 +87,6 @@ const renderBlock = function (period: string, data: PeriodStatistics): void {
     default:
       break;
   }
-};
-
-export const renderWeekHeading = function (
-  totalEarnings: number,
-  salesNumber: number,
-  isCurrent: boolean
-): string {
-  const average = totalEarnings / (isCurrent ? getWeekDay() : 7);
-  return renderHeading(totalEarnings, salesNumber, average);
 };
 
 export const renderDaysAndWeeks = function (dataSet: StatementsSet): void {
@@ -131,7 +130,8 @@ const getCurrentMonthMarkup = function ({ month, sales, earnings }): string {
   // get heading markup
   markup += renderHeading(earnings, sales);
   // get content markup
-  markup += renderCurrentMonth(average, estimated);
+  markup += renderAverage(average);
+  markup += renderEstimate(estimated);
 
   return markup;
 };

@@ -4,8 +4,9 @@ import {
   LASTUPDATE_CONTAINER,
   LOCAL_LOCALE,
   REFRESH_TIMEOUT,
+  WEEKDAY_CONTAINER,
 } from '../constants';
-import { getClockTime } from '../utils/time.utils';
+import { getClockTime, getClockWeekday } from '../utils/time.utils';
 
 const ONESEC = 1000;
 
@@ -24,6 +25,7 @@ const renderLocalTime = (): void => {
 const renderClock = (): void => {
   // render to page
   document.getElementById(CLOCK_CONTAINER).textContent = getClockTime();
+  document.getElementById(WEEKDAY_CONTAINER).textContent = getClockWeekday();
 
   // update every second
   setTimeout(renderClock, ONESEC);

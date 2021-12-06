@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Envato Statements</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Envato Statements</title>
+    <meta name="description" content="Envato Statements Page" />
     <meta http-equiv="refresh" content="900" id="refresh-timeout" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" type="text/css" href="./assets/css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="shortcut icon"
       href="./assets/img/favicon.ico"
@@ -14,47 +21,50 @@
     <script defer type="module" src="app.ts"></script>
   </head>
   <body class="loading">
+    <div class="countdown-block">
+      <div>
+        <span>Refresh Countdown: </span>
+        <span id="countdown"></span>
+      </div>
+      <div>
+        <span>Last Update: </span>
+        <span id="last-update">12:00</span>
+      </div>
+    </div>
+
     <div class="body">
       <div id="data-container" class="relative">
-        <div class="countdown-block">
-          <div>
-            <span>Refresh Countdown: </span>
-            <span id="countdown"></span>
-          </div>
-          <div>
-            <span>Last Update: </span>
-            <span id="last-update">12:00</span>
-          </div>
-        </div>
-
-        <section class="new-sales block-separator hidden">
+        <section class="new-sales info-block hidden">
           <h2>New Sales</h2>
-          <div id="new-sales"></div>
+          <div id="new-sales" class="orders-block"></div>
         </section>
 
-        <div class="days flex two-cols block-separator">
+        <div class="days flex two-cols info-block">
           <section class="today">
-            <h2><span id="clock"></span></h2>
-            <div id="day-sales"></div>
+            <h2>
+              <span id="weekday">Sunday</span> <small>/</small>
+              <small id="clock">20:02:02</small>
+            </h2>
+            <div id="day-sales" class="orders-block"></div>
           </section>
           <section class="yesterday">
             <h2>Yesterday</h2>
-            <div id="yesterday-sales"></div>
+            <div id="yesterday-sales" class="orders-block"></div>
           </section>
         </div>
 
-        <div class="weeks flex two-cols block-separator">
+        <div class="weeks flex two-cols info-block">
           <section class="current-week">
             <h2>Current Week</h2>
-            <div id="current-week-sales"></div>
+            <div id="current-week-sales" class="orders-block"></div>
           </section>
           <section class="prev-week">
             <h2>Previous Week</h2>
-            <div id="previous-week-sales"></div>
+            <div id="previous-week-sales" class="orders-block"></div>
           </section>
         </div>
 
-        <div class="months flex two-cols block-separator">
+        <div class="months flex two-cols info-block">
           <section>
             <h2>Current Month</h2>
             <div id="current-month"></div>
@@ -65,16 +75,16 @@
           </section>
         </div>
 
-        <section id="days-earnings" class="block-separator canvas">
+        <section id="days-earnings" class="info-block">
           <h2>Days Overview</h2>
         </section>
 
-        <section id="months-earnings" class="block-separator canvas">
+        <section id="months-earnings" class="info-block">
           <h2>Months Overview</h2>
         </section>
       </div>
 
-      <div id="error-container" class="hidden"></div>
+      <div id="error-container" class="error hidden"></div>
     </div>
 
     <div id="loader">

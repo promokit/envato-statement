@@ -9,6 +9,7 @@ export const TIMEOUT_ELEMENT = 'refresh-timeout';
 export const DATA_CONTAINER = 'data-container';
 export const ERROR_CONTAINER = 'error-container';
 export const CLOCK_CONTAINER = 'clock';
+export const WEEKDAY_CONTAINER = 'weekday';
 export const TODAY_CONTAINER = 'day-sales';
 export const YESTERDAY_CONTAINER = 'yesterday-sales';
 export const CURRENT_WEEK_CONTAINER = 'current-week-sales';
@@ -39,5 +40,6 @@ export const ENVATO_PARTIAL_FEE = 12.5; // percents
 export const EXTENDED_SUPPORT = 'Extended Support'; // part of order title
 export const RENEWED_SUPPORT = 'Renewed Support'; // part of order title
 export const GRAPH_MONTHS = 15;
+export const WEEKDAYS_NUM = 7;
 // assets
 export const AUDIO_FILE = '/ding.m4a';

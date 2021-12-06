@@ -1,5 +1,11 @@
 import { Periods } from '../enums';
-import { AU_TIMEZONE, CURRENCY_LOCALE, LOCAL_LOCALE } from '../constants';
+import {
+  AU_TIMEZONE,
+  CURRENCY_LOCALE,
+  LOCAL_LOCALE,
+  WEEKDAYS_NUM,
+} from '../constants';
+
 const ONEDAY = 86400;
 
 export const getAUTime = function (returnTime: boolean = false): Date {
@@ -37,13 +43,16 @@ export const getAUTime = function (returnTime: boolean = false): Date {
 
 export const getWeekDay = function (): number {
   const day = getAUTime().getDay();
-  return day === 0 ? 7 : day;
+  return day === 0 ? WEEKDAYS_NUM : day;
 };
 
 export const getNextMonday = function (): Date {
   const date = getAUTime();
   const dateCopy = new Date(date);
-  dateCopy.setDate(dateCopy.getDate() + ((1 + 7 - dateCopy.getDay()) % 7 || 7));
+  dateCopy.setDate(
+    dateCopy.getDate() +
+      ((1 + WEEKDAYS_NUM - dateCopy.getDay()) % WEEKDAYS_NUM || WEEKDAYS_NUM)
+  );
   dateCopy.setHours(0);
   dateCopy.setMinutes(0);
   dateCopy.setSeconds(0);
@@ -63,21 +72,23 @@ const getTomorrowDate = function (): Date {
 export const getDateOfLastMonday = function (): string {
   const date = getAUTime();
   const dateCopy = new Date(date);
-  dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+  dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM));
   return convertDateToString(dateCopy);
 };
 
 export const getDateOfMondayWeekAgo = function (): string {
   const date = getAUTime();
   const dateCopy = new Date(date);
-  dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % 7) - 7);
+  dateCopy.setDate(
+    date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM) - WEEKDAYS_NUM
+  );
   return convertDateToString(dateCopy);
 };
 
 export const getLastSunday = function (): string {
   const date = getAUTime();
   const dateCopy = new Date(date);
-  dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % 7) - 1);
+  dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM) - 1);
   return convertDateToString(dateCopy);
 };
 
@@ -121,11 +132,7 @@ export const getLocalTimeOfOrder = function (
 };
 
 export const getClockTime = function (): string {
-  const AUTime: Date = getAUTime();
-  // compile date string
-  const date: string = new Intl.DateTimeFormat(CURRENCY_LOCALE, {
-    weekday: 'long',
-  }).format(AUTime);
+  const AUTime: Date = getAUTime(true);
   // compile time string
   const time: string = Array.from([
     AUTime.getHours(),
@@ -134,8 +141,17 @@ export const getClockTime = function (): string {
   ])
     .map((item) => item.toString().padStart(2, '0'))
     .join(':');
+  return time;
+};
 
-  return `${date}, ${time}`;
+export const getClockWeekday = function (): string {
+  const AUTime: Date = getAUTime(true);
+  // compile date string
+  const date: string = new Intl.DateTimeFormat(CURRENCY_LOCALE, {
+    weekday: 'long',
+  }).format(AUTime);
+
+  return date;
 };
 
 export const getShortMonthName = function (date: Date): string {

@@ -1,40 +1,87 @@
+:root {
+  --light-bg-color: #fff;
+  --dark-bg-color: #000;
+}
 body {
-  font-family: Tahoma, Arial;
-  background: #eee;
+  font-family: 'Open Sans', Arial;
+  background: var(--light-bg-color);
+  color: #333;
   font-size: 16px;
   line-height: 1.5em;
 }
 h2 {
-  margin-top: 0;
+  margin: 0;
+  font-family: Tinos;
+  font-size: 3.3125em;
+  font-weight: 600;
+  line-height: 1.3em;
+}
+h2 small {
+  font-size: 75%;
+}
+h3 {
+  font: bold 2.5em 'Open Sans';
+  line-height: 1.3em;
+  margin: 0 0 3.125rem 0;
+}
+h3 small {
+  font-size: 60%;
+}
+h3 span {
+  font-size: 60%;
 }
 dl {
   display: flex;
-  max-width: 250px;
-  margin: 0 0 3px 0;
+  align-items: flex-end;
+  margin: 0;
+  position: relative;
+  line-height: 1.5em;
 }
-dt,
-dd {
-  border-bottom: 1px dashed #ccc;
+dl:after {
+  content: '';
+  height: 1px;
+  width: 100%;
+  border: none;
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='1' width='900'%3E%3Cpath stroke='%23d2d2d2' stroke-width='1' stroke-dasharray='7,4' d='M5 0 l915 0' /%3E%3C/svg%3E");
+  background-position: 0 0;
+  background-repeat: repeat-x;
 }
 dt {
   flex-grow: 1;
+  font: bold 20px 'Open Sans';
+}
+dt span {
+  background: var(--light-bg-color);
+  position: relative;
+  z-index: 2;
+  padding: 0 6px 0 0;
+}
+dt small {
+  font-size: 70%;
+  font-weight: normal;
 }
 dd {
   margin: 0;
+  font: bold 25px Tinos;
 }
-section h3 {
-  margin: 0 0 5px;
+dd span {
+  background: var(--light-bg-color);
+  padding: 0 0 0 6px;
+  position: relative;
+  z-index: 2;
 }
+canvas {
+  margin-top: 30px;
+}
+
 .body {
   width: 95%;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 50px auto 140px;
-  background: #fff;
-  color: #333;
-  box-shadow: 0px 25px 30px 0 rgba(0, 0, 0, 0.1);
-  padding: 50px;
-  box-sizing: border-box;
-  position: relative;
 }
 .relative {
   position: relative;
@@ -47,34 +94,96 @@ section h3 {
   flex-direction: row;
   align-items: flex-start;
 }
-.flex-grow1 {
+.flex-grow {
   flex-grow: 1;
 }
 .capitalize {
   text-transform: capitalize;
 }
+
+.new-sales {
+  color: #980f0f;
+}
+.new-sales .order-origin,
+.new-sales .order-title {
+  color: inherit;
+}
+
+.orders-block {
+  max-width: 420px;
+}
+.orders-block time {
+  font: italic 17px Tinos;
+  font-weight: bold;
+  padding-right: 30px;
+  line-height: 30px;
+}
+.order-item {
+  display: flex;
+  margin-bottom: 10px;
+}
+.order-title {
+  font: bold 20px 'Open Sans';
+  display: flex;
+  color: #222;
+  align-items: baseline;
+}
+.order-title small {
+  font-size: 16px;
+  font-weight: bold;
+}
+.order-price {
+  font-family: 'Open Sans';
+  font-size: 15px;
+  font-style: normal;
+}
+.order-price strong {
+  font-size: 20px;
+}
+.order-origin {
+  font: italic 15px Tinos;
+  font-weight: bold;
+  line-height: 22px;
+  color: #888;
+}
+.item-summary {
+  margin-bottom: 20px;
+}
 .two-cols > section {
   width: 50%;
 }
-.block-separator {
-  padding-bottom: 25px;
-  border-bottom: 1px dashed #999;
-  margin-bottom: 30px;
+.info-block {
+  margin-bottom: 9rem;
 }
-#error-container {
+.error {
   color: rgb(163, 4, 4);
   font-weight: bold;
   font-size: 16px;
 }
-#new-sales {
-  color: rgb(168, 36, 3);
+.average {
+  margin-top: 40px;
+}
+.average,
+.estimate {
+  font-weight: 500;
+  font-style: italic;
 }
 .countdown-block {
   position: absolute;
   right: 0;
+  top: 0;
+  padding: 40px;
   text-align: right;
   font-size: 13px;
   line-height: 1.5em;
+}
+.countdown-block div span:first-child {
+  color: #999;
+  font-size: 15px;
+}
+.countdown-block div span:last-child {
+  color: #333;
+  font-size: 17px;
 }
 .loading {
   overflow: hidden;
@@ -100,7 +209,6 @@ section h3 {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
 }
-
 @media (max-width: 768px) {
   .two-cols {
     flex-direction: column;
@@ -111,21 +219,27 @@ section h3 {
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
-    background: #111;
+  body,
+  dt span,
+  dd span {
+    background: var(--dark-bg-color);
+    color: #bbb;
   }
-  .body {
-    background: #222;
+  h2 {
     color: #eee;
   }
-  body h2 {
-    color: #fff;
-  }
-  body h3 {
+  h3 {
     color: #ccc;
   }
-  body .block-separator {
-    border-bottom: 1px dashed #444;
+  dl:after {
+    opacity: 0.5;
+  }
+  .order-title span,
+  dt span {
+    color: #eee;
+  }
+  .countdown-block div span:last-child {
+    color: #eee;
   }
   #loader {
     background: rgba(0, 0, 0, 0.9);
