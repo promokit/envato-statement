@@ -35,3 +35,7 @@ To compile project just run:
 ```bash
 npm run build
 ```
+
+## App Preview
+
+![Application Preview](./src/assets/img/preview.png)
