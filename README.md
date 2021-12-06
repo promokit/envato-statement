@@ -10,13 +10,13 @@ Developed using Envato.js library https://www.npmjs.com/package/envato
 
 ## Installation
 
-Clone app to your computer using
+1. Clone app to your computer using
 
 ```bash
 git clone https://github.com/promokit/envato-statement.git
 ```
 
-Create .env file in the root of project and add your Envato token like this
+2. Create .env file in the root of project and add your Envato token like this
 
 ```bash
 TOKEN=5WEPQrRQXtbWF8ETspQioIDYMlHeFLrq
@@ -24,13 +24,13 @@ TOKEN=5WEPQrRQXtbWF8ETspQioIDYMlHeFLrq
 
 You can generate a new token at https://build.envato.com/create-token.
 
-Installation is straight forward using NPM or Yarn:
+3. Installation is straight forward using NPM or Yarn:
 
 ```bash
 npm install
 ```
 
-To compile project just run:
+4. To compile project just run:
 
 ```bash
 npm run build
