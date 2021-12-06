@@ -66,8 +66,12 @@ const renderBlock = function (period: string, data: PeriodStatistics): void {
     markup += renderAverage(average);
 
     if (period === Periods.CurrentWeek) {
-      const estimated: number = (totalEarnings / 1) * WEEKDAYS_NUM;
-      markup += renderEstimate(estimated);
+      const estimate: number = getEstimation(
+        totalEarnings,
+        getAUTime().getDay(),
+        WEEKDAYS_NUM
+      );
+      markup += renderEstimate(estimate);
     }
   }
 
@@ -121,9 +125,21 @@ const getPreviousMonthMarkup = function ({ month, sales, earnings }): string {
   return markup;
 };
 
+const getEstimation = function (
+  earnings: number,
+  periodDay: number,
+  periodDaysNumber: number
+): number {
+  return (earnings / periodDay) * periodDaysNumber;
+};
+
 const getCurrentMonthMarkup = function ({ month, sales, earnings }): string {
   const day: number = getAUTime().getDate();
-  const estimated: number = (earnings / day) * month.getDate();
+  const estimate: number = getEstimation(
+    earnings,
+    getAUTime().getDate(),
+    month.getDate()
+  );
   const average: number = earnings / day;
 
   let markup: string = '';
@@ -131,7 +147,7 @@ const getCurrentMonthMarkup = function ({ month, sales, earnings }): string {
   markup += renderHeading(earnings, sales);
   // get content markup
   markup += renderAverage(average);
-  markup += renderEstimate(estimated);
+  markup += renderEstimate(estimate);
 
   return markup;
 };

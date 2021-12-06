@@ -35,6 +35,7 @@ export const AU_TIMEZONE = 'Australia/Sydney';
 export const CURRENCY = 'USD'; // order currency
 export const CURRENCY_LOCALE = 'en-US'; // order locale
 export const LOCAL_LOCALE = 'pl-PL';
+export const SUITABLE_TIME_FORMAT = 'en-GB';
 export const ENVATO_FULL_FEE = 30; // percents
 export const ENVATO_PARTIAL_FEE = 12.5; // percents
 export const EXTENDED_SUPPORT = 'Extended Support'; // part of order title

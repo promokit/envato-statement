@@ -3,6 +3,7 @@ import {
   AU_TIMEZONE,
   CURRENCY_LOCALE,
   LOCAL_LOCALE,
+  SUITABLE_TIME_FORMAT,
   WEEKDAYS_NUM,
 } from '../constants';
 
@@ -18,7 +19,11 @@ export const getAUTime = function (returnTime: boolean = false): Date {
     minute: 'numeric',
     second: 'numeric',
   };
-  const formattedDate = new Intl.DateTimeFormat([], options).format(new Date());
+  const formattedDate = new Intl.DateTimeFormat(
+    SUITABLE_TIME_FORMAT,
+    options
+  ).format(new Date());
+
   const [date, time] = formattedDate.split(' ');
   const [day, month, year] = date.split('/');
   const [hours, minutes, seconds] = time.split(':');
