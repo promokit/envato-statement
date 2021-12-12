@@ -6,7 +6,14 @@ const { TOKEN } = process.env;
 import { OrderTypes, Periods, Toggler } from './enums';
 import { CLIENT_PARAMS } from './constants';
 import { convertItemTitle } from './vocabulary';
-import { StatementsSet, Sale, Period, PeriodStatistics } from './types';
+import {
+  StatementsSet,
+  PeriodsList,
+  Period,
+  PeriodStatistics,
+  monthResponse,
+  statementResponse,
+} from './types';
 import { saveToStorage, getPeriodFromStorage } from './utils/storage.utils';
 import { applyEnvatoFee } from './utils/tax.utils';
 import { isFullFee } from './utils/string.utils';
@@ -29,11 +36,11 @@ import {
 class EnvatoStatement {
   private client: any;
 
-  private periods: object;
+  private periods: PeriodsList;
 
-  private statement: any;
+  private statement: statementResponse;
 
-  private salesByMonth: any;
+  private salesByMonth: Array<monthResponse>;
 
   private statementsSet: StatementsSet;
 
@@ -175,44 +182,46 @@ class EnvatoStatement {
     let totalEarnings: number = 0;
     // temp variable keeps amount with applied fee
     let amountWithFee: number;
-
-    for (const {
-      amount,
-      date,
-      detail,
-      item_id,
-      order_id,
-      other_party_city,
-      other_party_country,
-    } of this.statement.results) {
-      orderIDList.add(order_id);
-      amountWithFee = applyEnvatoFee(amount, isFullFee(detail));
-      totalEarnings += amountWithFee;
-
-      // accumulate data
-      salesList[order_id] = {
-        amount: (salesList[order_id]?.amount || 0) + amountWithFee,
-        quantity: (salesList[order_id]?.quantity || 0) + 1,
-        date: getLocalTimeOfOrder(date),
+    if (this.statement.results.length > 0) {
+      for (const {
+        amount,
+        date,
+        detail,
+        item_id,
+        order_id,
         other_party_city,
         other_party_country,
-        detail: convertItemTitle(
-          item_id,
-          detail,
-          salesList[order_id]?.quantity || 0
-        ),
-      };
+      } of this.statement.results) {
+        orderIDList.add(order_id);
+        amountWithFee = applyEnvatoFee(amount, isFullFee(detail));
+        totalEarnings += amountWithFee;
 
-      // get date string. used in a graph
-      const day: string = getDayStringForGraph(date);
+        // accumulate data
+        salesList[order_id] = {
+          amount: (salesList[order_id]?.amount || 0) + amountWithFee,
+          quantity: (salesList[order_id]?.quantity || 0) + 1,
+          date: getLocalTimeOfOrder(date),
+          other_party_city,
+          other_party_country,
+          detail: convertItemTitle(
+            item_id,
+            detail,
+            salesList[order_id]?.quantity || 0
+          ),
+        };
 
-      // accumulate earnings per day
-      ordersPerDay[day] = (ordersPerDay[day] || 0) + amountWithFee;
-    }
+        // get date string. used in a graph
+        const day: string = getDayStringForGraph(date);
 
-    // accumulate sales number for item
-    for (const order of Object.values(salesList)) {
-      salesStatistics[order.detail] = (salesStatistics[order.detail] || 0) + 1;
+        // accumulate earnings per day
+        ordersPerDay[day] = (ordersPerDay[day] || 0) + amountWithFee;
+      }
+
+      // accumulate sales number for item
+      for (const order of Object.values(salesList)) {
+        salesStatistics[order.detail] =
+          (salesStatistics[order.detail] || 0) + 1;
+      }
     }
 
     this.statementsSet[period] = {

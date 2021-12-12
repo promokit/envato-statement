@@ -6,6 +6,7 @@ import {
   SUITABLE_TIME_FORMAT,
   WEEKDAYS_NUM,
 } from '../constants';
+import { PeriodsList } from '../types';
 
 const ONEDAY = 86400;
 
@@ -217,7 +218,7 @@ export const getDayStringForGraph = function (date: string): string {
   return convertDateToString(new Date(convertDateStringToMiliseconds(date)));
 };
 
-export const getPeriodsDates = function (): object {
+export const getPeriodsDates = function (): PeriodsList {
   return {
     [Periods.Today]: {
       from_date: convertDateToString(getAUTime()),

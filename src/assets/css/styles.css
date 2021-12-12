@@ -104,8 +104,7 @@ canvas {
 .new-sales {
   color: #980f0f;
 }
-.new-sales .order-origin,
-.new-sales .order-title {
+#new-sales * {
   color: inherit;
 }
 
@@ -160,6 +159,7 @@ section.info-block {
   color: rgb(163, 4, 4);
   font-weight: bold;
   font-size: 16px;
+  text-align: center;
 }
 .average {
   margin-top: 40px;
@@ -255,6 +255,9 @@ section.info-block {
   .order-title span,
   dt span {
     color: #eee;
+  }
+  .new-sales h2 {
+    color: inherit;
   }
   .countdown-block div span:last-child {
     color: #eee;

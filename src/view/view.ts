@@ -1,6 +1,6 @@
 import { Periods, Toggler } from '../enums';
 import { notify } from '../utils/notification.utils';
-import { Sale, PeriodStatistics, StatementsSet } from '../types';
+import { Sale, PeriodStatistics, StatementsSet, monthResponse } from '../types';
 import { renderMonthGraph, renderDaysGraph } from '../components/charts';
 import { getPeriodFromStorage } from '../utils/storage.utils';
 import {
@@ -152,7 +152,7 @@ const getCurrentMonthMarkup = function ({ month, sales, earnings }): string {
   return markup;
 };
 
-export const renderMonths = function (months: []): void {
+export const renderMonths = function (months: Array<monthResponse>): void {
   // render last 2 months in details
   const [previous, current] = months.slice(-2);
 

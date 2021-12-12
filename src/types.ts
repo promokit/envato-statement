@@ -14,6 +14,24 @@ export type StatementsSet = {
   previousweek: PeriodStatistics;
 };
 
+export type Period = {
+  from_date: string;
+  to_date: string;
+};
+
+export type PeriodsList = {
+  today: Period;
+  yesterday: Period;
+  currentweek: Period;
+  previousweek: Period;
+};
+
+export type monthResponse = {
+  earnings: string;
+  month: string; // | Date;
+  sales: string;
+};
+
 export type Sale = {
   amount: number;
   date: string;
@@ -24,7 +42,7 @@ export type Sale = {
   other_party_country: string;
 };
 
-export type Period = {
-  from_date: string;
-  to_date: string;
+export type statementResponse = {
+  count: number;
+  results: Sale[];
 };

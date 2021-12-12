@@ -6,7 +6,7 @@ export const renderHeading = function (
   salesNumber: number
 ): string {
   return `<h3>
-  <span>$</span>${Math.round(totalEarnings)} 
+  <span>$</span>${totalEarnings} 
   <small>/ ${salesNumber} ${salesNumber === 1 ? 'Sale' : 'Sales'}</small>
   </h3>`;
 };
