@@ -8,8 +8,8 @@ import { CLIENT_PARAMS } from './constants';
 import { convertItemTitle } from './vocabulary';
 import {
   StatementsSet,
-  PeriodsList,
   Period,
+  PeriodsList,
   PeriodStatistics,
   monthResponse,
   statementResponse,
@@ -134,7 +134,7 @@ class EnvatoStatement {
       this.statement = await this.client.private.getStatement(options);
       this.salesByMonth = await this.client.private.getMonthlySales();
     } catch (error) {
-      renderError('Unable to fetch data from Envato server');
+      renderError('Unable to fetch data from Envato API');
       console.error(error);
     }
   }

@@ -32,6 +32,7 @@ import {
   convertDateToString,
   getDateOfMondayWeekAgo,
 } from '../utils/time.utils';
+import { formatPrice } from '../utils/string.utils';
 
 const render = function (elementId: string, markup: string): void {
   document.getElementById(elementId).innerHTML = markup;
@@ -66,9 +67,10 @@ const renderBlock = function (period: string, data: PeriodStatistics): void {
     markup += renderAverage(average);
 
     if (period === Periods.CurrentWeek) {
+      const currentDay = getAUTime().getDay();
       const estimate: number = getEstimation(
         totalEarnings,
-        getAUTime().getDay(),
+        currentDay ? currentDay : WEEKDAYS_NUM,
         WEEKDAYS_NUM
       );
       markup += renderEstimate(estimate);
@@ -185,8 +187,8 @@ export const notifyAboutNewSales = function (newSales: Array<Sale>): undefined {
 
   salesNumber > 1 && (sale += 's');
 
-  notificationTitle = `${salesNumber} ${sale}, $${salesPrice}`;
-  notificationBody = notificationBody.slice(0, -2);
+  notificationTitle = `${salesNumber} ${sale}, ${formatPrice(salesPrice)}`;
+  notificationBody = notificationBody.slice(0, -2).replace(/(<([^>]+)>)/gi, '');
 
   // display browser's notification
   notify(notificationTitle, notificationBody);
