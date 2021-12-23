@@ -5,8 +5,7 @@ export const renderHeading = function (
   totalEarnings: number,
   salesNumber: number
 ): string {
-  return `<h3>
-  <span>$</span>${totalEarnings} 
+  return `<h3 class="subtitle">${formatPrice(totalEarnings)} 
   <small>/ ${salesNumber} ${salesNumber === 1 ? 'Sale' : 'Sales'}</small>
   </h3>`;
 };
@@ -20,7 +19,7 @@ export const renderSalesList = function (sale: Sale): string {
               <span>${sale.detail}</span>
           </dt>
           <dd class="order-price">
-              <span>$<strong>${sale.amount}</strong></span>
+              <strong>${formatPrice(sale.amount)}</strong>
           </dd>
       </dl>
       <div class="order-origin capitalize">${sale.other_party_city.toLowerCase()}, ${sale.other_party_country.toLowerCase()}</div>

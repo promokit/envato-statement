@@ -151,6 +151,9 @@ canvas {
 .two-cols > section {
   width: 50%;
 }
+.subtitle::first-letter {
+  font-size: 70%;
+}
 .info-block > section,
 section.info-block {
   margin-bottom: 9rem;

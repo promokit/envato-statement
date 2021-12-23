@@ -24,7 +24,6 @@ export const renderMonthGraph = function (statement: any[]): void {
     MONTH_GRAPH_CONTAINER,
     MONTH_GRAPH
   );
-
   // prepare data for graph
   const earnings: object = statement.map((item) => item.earnings);
   const labels: string[] = statement.map((item) =>
