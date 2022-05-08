@@ -11,8 +11,9 @@ import {
   Period,
   PeriodsList,
   PeriodStatistics,
-  monthResponse,
-  statementResponse,
+  MonthResponse,
+  StatementResponse,
+  ClientInterface,
 } from './types';
 import { saveToStorage, getPeriodFromStorage } from './utils/storage.utils';
 import { applyEnvatoFee } from './utils/tax.utils';
@@ -34,13 +35,13 @@ import {
 } from './view/view';
 
 class EnvatoStatement {
-  private client: any;
+  private client: ClientInterface;
 
   private periods: PeriodsList;
 
-  private statement: statementResponse;
+  private statement: StatementResponse;
 
-  private salesByMonth: Array<monthResponse>;
+  private salesByMonth: Array<MonthResponse>;
 
   private statementsSet: StatementsSet;
 
@@ -60,7 +61,6 @@ class EnvatoStatement {
    */
   private async setupEnvironment() {
     this.client = new Envato.Client(CLIENT_PARAMS);
-
     this.periods = getPeriodsDates();
 
     this.periodStatistics = {
@@ -91,7 +91,7 @@ class EnvatoStatement {
 
     this.cacheFetchedData();
 
-    toggleLoader(Toggler.Hide);
+    //toggleLoader(Toggler.Hide);
   }
 
   private cacheFetchedData(): void {

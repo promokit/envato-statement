@@ -1,38 +1,38 @@
-export type PeriodStatistics = {
+export interface PeriodStatistics {
   totalEarnings: number;
   salesNumber: number;
   salesList: object;
   salesStatistics: object;
   ordersPerDay: object;
   expireAt: number;
-};
+}
 
-export type StatementsSet = {
+export interface StatementsSet {
   today: PeriodStatistics;
   yesterday: PeriodStatistics;
   currentweek: PeriodStatistics;
   previousweek: PeriodStatistics;
-};
+}
 
-export type Period = {
+export interface Period {
   from_date: string;
   to_date: string;
-};
+}
 
-export type PeriodsList = {
+export interface PeriodsList {
   today: Period;
   yesterday: Period;
   currentweek: Period;
   previousweek: Period;
-};
+}
 
-export type monthResponse = {
+export interface MonthResponse {
   earnings: string;
   month: string; // | Date;
   sales: string;
-};
+}
 
-export type Sale = {
+export interface Sale {
   amount: number;
   date: string;
   detail: string;
@@ -40,9 +40,16 @@ export type Sale = {
   order_id: number;
   other_party_city: string;
   other_party_country: string;
-};
+}
 
-export type statementResponse = {
+export interface StatementResponse {
   count: number;
   results: Sale[];
-};
+}
+
+export interface ClientInterface {
+  private: {
+    getStatement: Function;
+    getMonthlySales: Function;
+  };
+}

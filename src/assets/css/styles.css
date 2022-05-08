@@ -54,11 +54,15 @@ dt {
   flex-grow: 1;
   font: bold 20px 'Open Sans';
 }
-dt span {
+dt span,
+dd span {
   background: var(--light-bg-color);
   position: relative;
   z-index: 2;
   padding: 0 6px 0 0;
+}
+dd span {
+  padding: 0 0 0 6px;
 }
 dt small {
   font-size: 70%;
@@ -68,7 +72,7 @@ dd {
   margin: 0;
   font: bold 25px Tinos;
 }
-dd span {
+dd strong {
   background: var(--light-bg-color);
   padding: 0 0 0 6px;
   position: relative;
@@ -135,6 +139,7 @@ canvas {
   font-family: 'Open Sans';
   font-size: 15px;
   font-style: normal;
+  z-index: 2;
 }
 .order-price strong {
   font-size: 20px;
@@ -242,7 +247,8 @@ section.info-block {
 @media (prefers-color-scheme: dark) {
   body,
   dt span,
-  dd span {
+  dd span,
+  dd strong {
     background: var(--dark-bg-color);
     color: #bbb;
   }

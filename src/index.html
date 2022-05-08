@@ -21,18 +21,7 @@
     <script defer type="module" src="app.ts"></script>
   </head>
   <body class="loading">
-    <div class="countdown-block">
-      <div>
-        <span>Refresh Countdown: </span>
-        <span id="countdown"></span>
-      </div>
-      <div>
-        <span>Last Update: </span>
-        <span id="last-update">12:00</span>
-      </div>
-    </div>
-
-    <div class="body">
+    <main class="body">
       <div id="data-container" class="relative">
         <section class="new-sales info-block hidden">
           <h2>New Sales</h2>
@@ -85,6 +74,17 @@
       </div>
 
       <div id="error-container" class="error hidden"></div>
+    </main>
+
+    <div class="countdown-block">
+      <div>
+        <span>Refresh Countdown: </span>
+        <span id="countdown"></span>
+      </div>
+      <div>
+        <span>Last Update: </span>
+        <span id="last-update">12:00</span>
+      </div>
     </div>
 
     <div id="loader">
