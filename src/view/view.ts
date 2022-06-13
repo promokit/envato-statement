@@ -1,8 +1,14 @@
-import { Periods, Toggler } from '../enums';
+import { Periods, Toggler } from '../model/enums';
+import { formatPrice } from '../utils/string.utils';
 import { notify } from '../utils/notification.utils';
-import { Sale, PeriodStatistics, StatementsSet, monthResponse } from '../types';
-import { renderMonthGraph, renderDaysGraph } from '../components/charts';
 import { getPeriodFromStorage } from '../utils/storage.utils';
+import { renderMonthGraph, renderDaysGraph } from '../components/charts';
+import {
+  Sale,
+  PeriodStatistics,
+  StatementsSet,
+  MonthResponse,
+} from '../model/interfaces';
 import {
   renderHeading,
   renderStatistics,
@@ -24,7 +30,7 @@ import {
   LOADER_CLASS,
   GRAPH_MONTHS,
   WEEKDAYS_NUM,
-} from '../constants';
+} from '../model/constants';
 import {
   getWeekDay,
   getAUTime,
@@ -32,16 +38,15 @@ import {
   convertDateToString,
   getDateOfMondayWeekAgo,
 } from '../utils/time.utils';
-import { formatPrice } from '../utils/string.utils';
 
-const render = function (elementId: string, markup: string): void {
+const render = (elementId: string, markup: string): void => {
   document.getElementById(elementId).innerHTML = markup;
 };
 
-const renderBlock = function (period: string, data: PeriodStatistics): void {
+const renderBlock = (period: string, data: PeriodStatistics): void => {
   const { totalEarnings, salesNumber, salesList, salesStatistics } = data;
 
-  let markup: string = '';
+  let markup = '';
 
   if (period === Periods.Today || period === Periods.Yesterday) {
     markup += renderHeading(totalEarnings, salesNumber);
@@ -60,7 +65,7 @@ const renderBlock = function (period: string, data: PeriodStatistics): void {
       (entry) => (markup += renderStatistics(entry))
     );
 
-    const average: number =
+    const average =
       totalEarnings /
       (period === Periods.CurrentWeek ? getWeekDay() : WEEKDAYS_NUM);
 
@@ -68,7 +73,7 @@ const renderBlock = function (period: string, data: PeriodStatistics): void {
 
     if (period === Periods.CurrentWeek) {
       const currentDay = getAUTime().getDay();
-      const estimate: number = getEstimation(
+      const estimate = getEstimation(
         totalEarnings,
         currentDay ? currentDay : WEEKDAYS_NUM,
         WEEKDAYS_NUM
@@ -95,7 +100,7 @@ const renderBlock = function (period: string, data: PeriodStatistics): void {
   }
 };
 
-export const renderDaysAndWeeks = function (dataSet: StatementsSet): void {
+export const renderDaysAndWeeks = (dataSet: StatementsSet): void => {
   Object.keys(dataSet).forEach((period) => {
     renderBlock(period, dataSet[period]);
   });
@@ -105,7 +110,7 @@ export const renderDaysAndWeeks = function (dataSet: StatementsSet): void {
     dataSet[Periods.PreviousWeek].ordersPerDay
   );
 
-  let datesList: object = getDatesList(
+  let datesList = getDatesList(
     getDateOfMondayWeekAgo(),
     convertDateToString(getAUTime())
   );
@@ -117,8 +122,8 @@ export const renderDaysAndWeeks = function (dataSet: StatementsSet): void {
   renderDaysGraph(datesList);
 };
 
-const getPreviousMonthMarkup = function ({ month, sales, earnings }): string {
-  let markup: string = '';
+const getPreviousMonthMarkup = ({ month, sales, earnings }): string => {
+  let markup = '';
   // get heading markup
   markup += renderHeading(earnings, sales);
   // get content markup
@@ -127,24 +132,22 @@ const getPreviousMonthMarkup = function ({ month, sales, earnings }): string {
   return markup;
 };
 
-const getEstimation = function (
+const getEstimation = (
   earnings: number,
   periodDay: number,
   periodDaysNumber: number
-): number {
-  return (earnings / periodDay) * periodDaysNumber;
-};
+): number => (earnings / periodDay) * periodDaysNumber;
 
-const getCurrentMonthMarkup = function ({ month, sales, earnings }): string {
-  const day: number = getAUTime().getDate();
-  const estimate: number = getEstimation(
+const getCurrentMonthMarkup = ({ month, sales, earnings }): string => {
+  const day = getAUTime().getDate();
+  const estimate = getEstimation(
     earnings,
     getAUTime().getDate(),
     month.getDate()
   );
-  const average: number = earnings / day;
+  const average = earnings / day;
 
-  let markup: string = '';
+  let markup = '';
   // get heading markup
   markup += renderHeading(earnings, sales);
   // get content markup
@@ -154,7 +157,7 @@ const getCurrentMonthMarkup = function ({ month, sales, earnings }): string {
   return markup;
 };
 
-export const renderMonths = function (months: Array<monthResponse>): void {
+export const renderMonths = (months: Array<MonthResponse>): void => {
   // render last 2 months in details
   const [previous, current] = months.slice(-2);
 
@@ -165,18 +168,18 @@ export const renderMonths = function (months: Array<monthResponse>): void {
   renderMonthGraph(months.slice(-GRAPH_MONTHS));
 };
 
-export const notifyAboutNewSales = function (newSales: Array<Sale>): undefined {
+export const notifyAboutNewSales = (newSales: Sale[]): null => {
   // return if no new sales
   if (newSales.length === 0) {
-    return;
+    return null;
   }
 
-  let markup: string = '';
-  let salesNumber: number = 0;
-  let salesPrice: number = 0;
-  let notificationBody: string = '';
-  let notificationTitle: string = '';
-  let sale: string = 'Sale';
+  let markup = '';
+  let sale = 'Sale';
+  let salesPrice = 0;
+  let salesNumber = 0;
+  let notificationBody = '';
+  let notificationTitle = '';
 
   newSales.forEach((details) => {
     salesNumber++;
@@ -201,18 +204,18 @@ export const notifyAboutNewSales = function (newSales: Array<Sale>): undefined {
     .getElementById(NEW_SALES_CONTAINER)
     .parentElement.classList.remove(HIDDEN_CLASS);
 
-  return;
+  return null;
 };
 
-export const getDatesList = function (
+export const getDatesList = (
   startString: string,
   endString: string
-): object {
-  const start: number = convertDateStringToMiliseconds(startString);
-  const end: number = convertDateStringToMiliseconds(endString);
-  const endDate: Date = new Date(end);
-  const datesList: object = {};
-  let loop: Date = new Date(start);
+): object => {
+  const start = convertDateStringToMiliseconds(startString);
+  const end = convertDateStringToMiliseconds(endString);
+  const endDate = new Date(end);
+  const datesList = {};
+  let loop = new Date(start);
 
   while (loop < endDate) {
     const newDate = loop.setDate(loop.getDate() + 1);
@@ -228,12 +231,10 @@ export const getDatesList = function (
  * @param todayOrders fetched list of today orders
  * @returns newOrders a list of New Orders
  */
-export const renderNewSales = function (
-  todayOrders: PeriodStatistics
-): Array<Sale> {
-  let newSales: Array<Sale> = [];
+export const renderNewSales = (todayOrders: PeriodStatistics): Sale[] => {
+  let newSales = [] as Sale[];
   // get existing sales from localstorage
-  const todayOrdered: PeriodStatistics = getPeriodFromStorage(Periods.Today);
+  const todayOrdered = getPeriodFromStorage(Periods.Today);
 
   // if no today orders, notify about all new orders and return
   if (!todayOrdered) {
@@ -247,8 +248,8 @@ export const renderNewSales = function (
   }
 
   // get orders ID from sales list
-  const ordersKeys: string[] = Object.keys(todayOrders.salesList);
-  const orderedKeys: string[] = Object.keys(todayOrdered.salesList);
+  const ordersKeys = Object.keys(todayOrders.salesList);
+  const orderedKeys = Object.keys(todayOrdered.salesList);
 
   // filter fetched sales
   ordersKeys.forEach((orderId) => {
@@ -260,13 +261,13 @@ export const renderNewSales = function (
   notifyAboutNewSales(newSales);
 };
 
-export const toggleLoader = function (show: Toggler): void {
+export const toggleLoader = (show: Toggler): void => {
   show == Toggler.Show
     ? document.body.classList.add(LOADER_CLASS)
     : document.body.classList.remove(LOADER_CLASS);
 };
 
-export const renderError = function (message: string = ''): void {
+export const renderError = (message: string = ''): void => {
   document.getElementById(DATA_CONTAINER).classList.add(HIDDEN_CLASS);
   document.getElementById(ERROR_CONTAINER).classList.remove(HIDDEN_CLASS);
   document.getElementById(ERROR_CONTAINER).textContent = message;

@@ -1,23 +1,22 @@
-import { isExtendedSupport, isRenewedSupport } from './utils/string.utils';
-import { EXTENDED_SUPPORT, RENEWED_SUPPORT } from './constants';
-import { wrapTitleSuffix } from './view/templates';
+import { isExtendedSupport, isRenewedSupport } from '../utils/string.utils';
+import { wrapTitleSuffix } from '../view/templates';
+import {
+  EXTENDED_SUPPORT,
+  RENEWED_SUPPORT,
+  EXT_ORDERS_NUMBER,
+} from './constants';
 
-const EXT_ORDERS_NUMBER = 3;
-
-export const convertItemTitle = function (
+export const convertItemTitle = (
   itemId: number,
   title: string,
   quantity: number
-): string {
-  const renew: string = isRenewedSupport(title) ? `${RENEWED_SUPPORT}` : '';
-  const extend: string = isExtendedSupport(title)
+): string => {
+  const renew = isRenewedSupport(title) ? `${RENEWED_SUPPORT}` : '';
+  const extend = isExtendedSupport(title)
     ? (renew && ' ') + EXTENDED_SUPPORT
     : '';
-  let suffix = '';
 
-  if (renew || extend) {
-    suffix = `${renew}${extend}`;
-  }
+  let suffix = renew || extend ? `${renew}${extend}` : '';
 
   // if order contain 3 sales that mean a customer purchased an item + extended support
   if (quantity === EXT_ORDERS_NUMBER) {

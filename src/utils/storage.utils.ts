@@ -1,19 +1,13 @@
-import { Periods } from '../enums';
-import { PeriodStatistics } from '../types';
+import { Periods } from '../model/enums';
+import { PeriodStatistics } from '../model/interfaces';
 
 const storage = window.localStorage;
 
-export const saveToStorage = function (
-  period: Periods,
-  statement: object
-): void {
+export const saveToStorage = (period: Periods, statement: object): void => {
   if (period == Periods.Yesterday || Periods.PreviousWeek) {
     storage.setItem(period, JSON.stringify(statement));
   }
 };
 
-export const getPeriodFromStorage = function (
-  period: Periods
-): PeriodStatistics {
-  return JSON.parse(storage.getItem(period));
-};
+export const getPeriodFromStorage = (period: Periods): PeriodStatistics =>
+  JSON.parse(storage.getItem(period));

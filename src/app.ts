@@ -3,9 +3,13 @@
 const Envato = require('envato');
 const { TOKEN } = process.env;
 
-import { OrderTypes, Periods, Toggler } from './enums';
-import { CLIENT_PARAMS } from './constants';
-import { convertItemTitle } from './vocabulary';
+import { CLIENT_PARAMS } from './model/constants';
+import { convertItemTitle } from './model/vocabulary';
+import { isFullFee } from './utils/string.utils';
+import { applyEnvatoFee } from './utils/tax.utils';
+import { OrderTypes, Periods, Toggler } from './model/enums';
+import { showTime, showCountdown } from './components/clock';
+import { saveToStorage, getPeriodFromStorage } from './utils/storage.utils';
 import {
   StatementsSet,
   Period,
@@ -14,11 +18,8 @@ import {
   MonthResponse,
   StatementResponse,
   ClientInterface,
-} from './types';
-import { saveToStorage, getPeriodFromStorage } from './utils/storage.utils';
-import { applyEnvatoFee } from './utils/tax.utils';
-import { isFullFee } from './utils/string.utils';
-import { showTime, showCountdown } from './components/clock';
+  Sale,
+} from './model/interfaces';
 import {
   getAUTime,
   getPeriodsDates,
@@ -67,9 +68,9 @@ class EnvatoStatement {
       totalEarnings: 0,
       salesNumber: 0,
       expireAt: 0,
-      salesList: {},
-      ordersPerDay: {},
-      salesStatistics: {},
+      salesList: [],
+      ordersPerDay: [],
+      salesStatistics: [],
     };
 
     this.statementsSet = {
@@ -80,7 +81,7 @@ class EnvatoStatement {
     };
   }
 
-  private async setupComponents() {
+  private async setupComponents(): Promise<void> {
     toggleLoader(Toggler.Show);
 
     showTime();
@@ -88,10 +89,9 @@ class EnvatoStatement {
 
     await this.getStatementData();
     this.renderPage();
-
     this.cacheFetchedData();
 
-    //toggleLoader(Toggler.Hide);
+    toggleLoader(Toggler.Hide);
   }
 
   private cacheFetchedData(): void {
@@ -101,7 +101,7 @@ class EnvatoStatement {
     }
   }
 
-  private async getStatementData() {
+  private async getStatementData(): Promise<void> {
     for (let period in this.periods) {
       // check is data available or not, if so, just continue the loop
       if (!this.checkDataAvailability(period as Periods)) {
@@ -126,7 +126,7 @@ class EnvatoStatement {
    * Fetch data from Envato
    * @param periodOptions
    */
-  private async fetchData(periodOptions: Period) {
+  private async fetchData(periodOptions: Period): Promise<void> {
     // compile options for request
     const options = { ...periodOptions, type: OrderTypes.Sale };
 
@@ -150,7 +150,7 @@ class EnvatoStatement {
       return true;
     }
 
-    const cachedStatement: PeriodStatistics = getPeriodFromStorage(period);
+    const cachedStatement = getPeriodFromStorage(period);
     // if no cached data, return TRUE to fetch
     if (!cachedStatement) {
       return true;
@@ -172,16 +172,17 @@ class EnvatoStatement {
   private processData(period: Periods): void {
     // used to calculate orders number
     const orderIDList = new Set();
-    // accumulatess date for an sale
-    const salesList: object = {};
+    // accumulatess date for a sale
+    const salesList = [] as Sale[];
     // contain details of every sale
-    const salesStatistics: object = {};
+    const salesStatistics = [] as number[];
     // contains earnings per day to display in a graph
-    const ordersPerDay: object = {};
+    const ordersPerDay = [] as number[];
     // earnings for a period
-    let totalEarnings: number = 0;
+    let totalEarnings = 0;
     // temp variable keeps amount with applied fee
     let amountWithFee: number;
+
     if (this.statement.results.length > 0) {
       for (const {
         amount,
@@ -200,9 +201,9 @@ class EnvatoStatement {
         salesList[order_id] = {
           amount: (salesList[order_id]?.amount || 0) + amountWithFee,
           quantity: (salesList[order_id]?.quantity || 0) + 1,
-          date: getLocalTimeOfOrder(date),
-          other_party_city,
           other_party_country,
+          other_party_city,
+          date: getLocalTimeOfOrder(date),
           detail: convertItemTitle(
             item_id,
             detail,
@@ -211,7 +212,7 @@ class EnvatoStatement {
         };
 
         // get date string. used in a graph
-        const day: string = getDayStringForGraph(date);
+        const day = getDayStringForGraph(date);
 
         // accumulate earnings per day
         ordersPerDay[day] = (ordersPerDay[day] || 0) + amountWithFee;

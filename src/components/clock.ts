@@ -1,3 +1,4 @@
+import { getClockTime, getClockWeekday } from '../utils/time.utils';
 import {
   CLOCK_CONTAINER,
   COUNTDOWN_CONTAINER,
@@ -5,10 +6,10 @@ import {
   LOCAL_LOCALE,
   REFRESH_TIMEOUT,
   WEEKDAY_CONTAINER,
-} from '../constants';
-import { getClockTime, getClockWeekday } from '../utils/time.utils';
+} from '../model/constants';
 
 const ONESEC = 1000;
+const reloadTime = Date.now();
 
 export const showTime = (): void => {
   renderClock();
@@ -31,13 +32,11 @@ const renderClock = (): void => {
   setTimeout(renderClock, ONESEC);
 };
 
-const reloadTime = Date.now();
-
 export const showCountdown = (): void => {
-  const startStamp: number = reloadTime + REFRESH_TIMEOUT;
-  const diff: number = Math.round((startStamp - Date.now()) / ONESEC);
-  const m: number = Math.floor(diff / 60);
-  const s: number = diff - m * 60;
+  const startStamp = reloadTime + REFRESH_TIMEOUT;
+  const diff = Math.round((startStamp - Date.now()) / ONESEC);
+  const m = Math.floor(diff / 60);
+  const s = diff - m * 60;
 
   const untilUpdate = document.getElementById(
     COUNTDOWN_CONTAINER

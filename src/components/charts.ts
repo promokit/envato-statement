@@ -3,7 +3,7 @@ import {
   DAYS_GRAPH,
   MONTH_GRAPH_CONTAINER,
   DAYS_GRAPH_CONTAINER,
-} from '../constants';
+} from '../model/constants';
 import {
   Chart,
   LinearScale,
@@ -16,8 +16,9 @@ import {
   Tooltip,
 } from 'chart.js';
 import { getShortMonthName } from '../utils/time.utils';
+import { MonthResponse } from '../model/interfaces';
 
-export const renderMonthGraph = function (statement: any[]): void {
+export const renderMonthGraph = (statement: MonthResponse[]): void => {
   Chart.register(LinearScale, CategoryScale, BarController, BarElement);
 
   const context: HTMLCanvasElement = createContext(
@@ -25,9 +26,9 @@ export const renderMonthGraph = function (statement: any[]): void {
     MONTH_GRAPH
   );
   // prepare data for graph
-  const earnings: object = statement.map((item) => item.earnings);
-  const labels: string[] = statement.map((item) =>
-    getShortMonthName(item.month)
+  const earnings = statement.map((item) => item.earnings);
+  const labels = statement.map((item) =>
+    typeof item.month === 'string' ? item.month : getShortMonthName(item.month)
   );
 
   new Chart(context, {
@@ -66,7 +67,7 @@ export const renderMonthGraph = function (statement: any[]): void {
   });
 };
 
-export const renderDaysGraph = function (statement: object): void {
+export const renderDaysGraph = (statement: MonthResponse[]): void => {
   Chart.register(
     LinearScale,
     CategoryScale,
@@ -134,10 +135,7 @@ export const renderDaysGraph = function (statement: object): void {
   });
 };
 
-const createContext = function (
-  container: string,
-  id: string
-): HTMLCanvasElement {
+const createContext = (container: string, id: string): HTMLCanvasElement => {
   let context = document.getElementById(id) as HTMLCanvasElement;
 
   // remove canvas if exist

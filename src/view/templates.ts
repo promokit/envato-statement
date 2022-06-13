@@ -1,16 +1,16 @@
-import { Sale } from '../types';
+import { Sale } from '../model/interfaces';
 import { formatPrice } from '../utils/string.utils';
 
-export const renderHeading = function (
+export const renderHeading = (
   totalEarnings: number,
   salesNumber: number
-): string {
+): string => {
   return `<h3 class="subtitle">${formatPrice(totalEarnings)} 
   <small>/ ${salesNumber} ${salesNumber === 1 ? 'Sale' : 'Sales'}</small>
   </h3>`;
 };
 
-export const renderSalesList = function (sale: Sale): string {
+export const renderSalesList = (sale: Sale): string => {
   return `<div class="order-item">
   <time>${sale.date}</time>
   <div class="flex-grow">
@@ -27,25 +27,25 @@ export const renderSalesList = function (sale: Sale): string {
 </div>`;
 };
 
-export const renderStatistics = function ([title, quantity]): string {
+export const renderStatistics = ([title, quantity]): string => {
   return `<dl class="item-summary">
-      <dt><span>${title}</span></dt>
-      <dd><span>${quantity}</span></dd>
-    </dl>`;
+    <dt><span>${title}</span></dt>
+    <dd><span>${quantity}</span></dd>
+  </dl>`;
 };
 
-export const renderAverage = function (average: number): string {
+export const renderAverage = (average: number): string => {
   return average
     ? `<div class="average">Average: ${formatPrice(average)}/day</div>`
     : '';
 };
 
-export const renderEstimate = function (estimated: number): string {
+export const renderEstimate = (estimated: number): string => {
   return estimated
     ? `<div class="estimate">Estimate: ${formatPrice(estimated)}</div>`
     : '';
 };
 
-export const wrapTitleSuffix = function (suffix: string = ''): string {
+export const wrapTitleSuffix = (suffix: string = ''): string => {
   return suffix ? ` <small>(${suffix})</small>` : '';
 };

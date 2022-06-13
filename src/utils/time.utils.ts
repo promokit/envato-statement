@@ -1,17 +1,17 @@
-import { Periods } from '../enums';
+import { Periods } from '../model/enums';
+import { PeriodsList } from '../model/interfaces';
 import {
   AU_TIMEZONE,
   CURRENCY_LOCALE,
   LOCAL_LOCALE,
   SUITABLE_TIME_FORMAT,
   WEEKDAYS_NUM,
-} from '../constants';
-import { PeriodsList } from '../types';
+} from '../model/constants';
 
 const ONEDAY = 86400;
 
-export const getAUTime = function (returnTime: boolean = false): Date {
-  const options: object = {
+export const getAUTime = (returnTime: boolean = false): Date => {
+  const options = {
     timeZone: AU_TIMEZONE,
     year: 'numeric',
     month: 'numeric',
@@ -19,7 +19,7 @@ export const getAUTime = function (returnTime: boolean = false): Date {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
-  };
+  } as object;
   const formattedDate = new Intl.DateTimeFormat(
     SUITABLE_TIME_FORMAT,
     options
@@ -47,12 +47,12 @@ export const getAUTime = function (returnTime: boolean = false): Date {
   return new Date(...dateShort);
 };
 
-export const getWeekDay = function (): number {
+export const getWeekDay = (): number => {
   const day = getAUTime().getDay();
   return day === 0 ? WEEKDAYS_NUM : day;
 };
 
-export const getNextMonday = function (): Date {
+export const getNextMonday = (): Date => {
   const date = getAUTime();
   const dateCopy = new Date(date);
   dateCopy.setDate(
@@ -65,7 +65,7 @@ export const getNextMonday = function (): Date {
   return dateCopy;
 };
 
-const getTomorrowDate = function (): Date {
+const getTomorrowDate = (): Date => {
   const date = getAUTime();
   const dateCopy = new Date(date);
   dateCopy.setDate(date.getDate() + 1);
@@ -75,14 +75,14 @@ const getTomorrowDate = function (): Date {
   return dateCopy;
 };
 
-export const getDateOfLastMonday = function (): string {
+export const getDateOfLastMonday = (): string => {
   const date = getAUTime();
   const dateCopy = new Date(date);
   dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM));
   return convertDateToString(dateCopy);
 };
 
-export const getDateOfMondayWeekAgo = function (): string {
+export const getDateOfMondayWeekAgo = (): string => {
   const date = getAUTime();
   const dateCopy = new Date(date);
   dateCopy.setDate(
@@ -91,20 +91,18 @@ export const getDateOfMondayWeekAgo = function (): string {
   return convertDateToString(dateCopy);
 };
 
-export const getLastSunday = function (): string {
+export const getLastSunday = (): string => {
   const date = getAUTime();
   const dateCopy = new Date(date);
   dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM) - 1);
   return convertDateToString(dateCopy);
 };
 
-export const getYesterdayDate = function (): string {
+export const getYesterdayDate = (): string => {
   return convertDateToString(new Date(getAUTime().getTime() - ONEDAY));
 };
 
-export const getLocalTimeOfOrder = function (
-  dateString: string | Date
-): string {
+export const getLocalTimeOfOrder = (dateString: string | Date): string => {
   // parse date string
   if (typeof dateString === 'object') {
     // get first 5 characters from locale time string
@@ -137,10 +135,10 @@ export const getLocalTimeOfOrder = function (
     .slice(0, 5); // get first 5 characters from locale time string
 };
 
-export const getClockTime = function (): string {
-  const AUTime: Date = getAUTime(true);
+export const getClockTime = (): string => {
+  const AUTime = getAUTime(true);
   // compile time string
-  const time: string = Array.from([
+  const time = Array.from([
     AUTime.getHours(),
     AUTime.getMinutes(),
     AUTime.getSeconds(),
@@ -150,23 +148,23 @@ export const getClockTime = function (): string {
   return time;
 };
 
-export const getClockWeekday = function (): string {
+export const getClockWeekday = (): string => {
   const AUTime: Date = getAUTime(true);
   // compile date string
-  const date: string = new Intl.DateTimeFormat(CURRENCY_LOCALE, {
+  const date = new Intl.DateTimeFormat(CURRENCY_LOCALE, {
     weekday: 'long',
   }).format(AUTime);
 
   return date;
 };
 
-export const getShortMonthName = function (date: Date): string {
+export const getShortMonthName = (date: Date): string => {
   return date.toLocaleString(CURRENCY_LOCALE, { month: 'short' });
 };
 
-export const convertDateStringToMiliseconds = function (
+export const convertDateStringToMiliseconds = (
   dateString: string | Date
-): number {
+): number => {
   if (typeof dateString === 'object') {
     return dateString.getTime();
   }
@@ -184,10 +182,10 @@ export const convertDateStringToMiliseconds = function (
   return dateCopy.getTime();
 };
 
-export const convertDateToString = function (
+export const convertDateToString = (
   date: Date,
   getTime: boolean = false
-): string {
+): string => {
   const [year, month, day] = [
     date.getFullYear().toString(),
     (date.getMonth() + 1).toString().padStart(2, '0'),
@@ -199,7 +197,7 @@ export const convertDateToString = function (
   return `${year}-${month}-${day}${time}`;
 };
 
-export const getExpirationDate = function (period: Periods): number {
+export const getExpirationDate = (period: Periods): number => {
   switch (period) {
     case Periods.Today:
       return 0;
@@ -214,11 +212,11 @@ export const getExpirationDate = function (period: Periods): number {
   }
 };
 
-export const getDayStringForGraph = function (date: string): string {
+export const getDayStringForGraph = (date: string): string => {
   return convertDateToString(new Date(convertDateStringToMiliseconds(date)));
 };
 
-export const getPeriodsDates = function (): PeriodsList {
+export const getPeriodsDates = (): PeriodsList => {
   return {
     [Periods.Today]: {
       from_date: convertDateToString(getAUTime()),

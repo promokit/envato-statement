@@ -1,9 +1,20 @@
+export interface Sale {
+  amount: number;
+  date: string;
+  detail: string;
+  item_id?: number;
+  quantity: number;
+  order_id?: number;
+  other_party_city: string;
+  other_party_country: string;
+}
+
 export interface PeriodStatistics {
   totalEarnings: number;
   salesNumber: number;
-  salesList: object;
-  salesStatistics: object;
-  ordersPerDay: object;
+  salesList: Sale[];
+  salesStatistics: number[];
+  ordersPerDay: number[];
   expireAt: number;
 }
 
@@ -30,16 +41,6 @@ export interface MonthResponse {
   earnings: string;
   month: string; // | Date;
   sales: string;
-}
-
-export interface Sale {
-  amount: number;
-  date: string;
-  detail: string;
-  item_id: number;
-  order_id: number;
-  other_party_city: string;
-  other_party_country: string;
 }
 
 export interface StatementResponse {

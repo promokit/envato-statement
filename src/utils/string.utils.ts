@@ -3,18 +3,18 @@ import {
   RENEWED_SUPPORT,
   CURRENCY_LOCALE,
   CURRENCY,
-} from '../constants';
+} from '../model/constants';
 
-export const isExtendedSupport = function (title: string): boolean {
+export const isExtendedSupport = (title: string): boolean => {
   return title.includes(EXTENDED_SUPPORT.toLowerCase());
 };
-export const isRenewedSupport = function (title: string): boolean {
+export const isRenewedSupport = (title: string): boolean => {
   return title.includes(RENEWED_SUPPORT.toLowerCase());
 };
-export const isFullFee = function (title: string): boolean {
+export const isFullFee = (title: string): boolean => {
   return isExtendedSupport(title) || isRenewedSupport(title);
 };
-export const formatPrice = function (price: number): string {
+export const formatPrice = (price: number): string => {
   const formatter = new Intl.NumberFormat(CURRENCY_LOCALE, {
     style: 'currency',
     currency: CURRENCY,
