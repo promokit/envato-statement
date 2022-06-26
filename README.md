@@ -2,7 +2,7 @@
 
 ## Description
 
-The Envato Statement is an app to display income of an Envato account. The app displays information in comparison mode, like today-yesterday, current week-previous week, and so on to give a picture of sales dynamic.
+The "Envato Statement" is an app to display income statement of your Envato account. The app display information blocks in comparison mode. "Today – Yesterday", "Current Week – Previous Week", and so on to give a picture of sales dynamic.
 
 Developed using Envato.js library https://www.npmjs.com/package/envato
 
@@ -22,9 +22,9 @@ git clone https://github.com/promokit/envato-statement.git
 TOKEN=5WEPQrRQXtbWF8ETspQioIDYMlHeFLrq
 ```
 
-You can generate a new token at https://build.envato.com/create-token.
+You can generate a new token here https://build.envato.com/create-token.
 
-3. Installation is straight forward using NPM or Yarn:
+3. Installation is straightforward using NPM (or Yarn):
 
 ```bash
 npm install
