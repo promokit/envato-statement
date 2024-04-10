@@ -1,15 +1,20 @@
-import { Periods } from "./enums";
+import { PeriodRange, Periods } from './enums';
 
 export type Sale = {
     amount: number;
     date: string;
     detail: string;
-    item_id?: number;
+    item_id: number;
     quantity: number;
-    order_id?: number;
+    order_id: number;
     other_party_city: string;
     other_party_country: string;
-}
+};
+
+export type StatementResponse = {
+    count: number;
+    results: Sale[];
+};
 
 export type PeriodStatistics = {
     totalEarnings: number;
@@ -18,16 +23,22 @@ export type PeriodStatistics = {
     salesStatistics: number[];
     ordersPerDay: number[];
     expireAt: number;
-}
+};
+export type Period = {
+    [PeriodRange.From]: string;
+    [PeriodRange.To]: string;
+};
 
 export type Statements = {
-    [Periods.Today]: PeriodStatistics;
-    [Periods.Yesterday]: PeriodStatistics;
-    [Periods.CurrentWeek]: PeriodStatistics;
-    [Periods.PreviousWeek]: PeriodStatistics;
-}
+    [key in Periods]: PeriodStatistics;
+};
 
-export type Period = {
-    from_date: string;
-    to_date: string;
-}
+export type PeriodsList = {
+    [key in Periods]: Period;
+};
+
+export type SortedSales = {
+    [key in Periods]: Sale[];
+};
+
+export type SortedBlocks = Omit<SortedSales, Periods.LastTwoWeeks>;

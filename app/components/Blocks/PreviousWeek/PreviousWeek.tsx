@@ -1,4 +1,4 @@
-import { BlockSkeleton } from "../../Blocks";
+import { BlockSkeleton } from '../BlockSkeleton/BlockSkeleton';
 
 export const PreviousWeek = () => {
     return (
@@ -7,4 +7,3 @@ export const PreviousWeek = () => {
         </BlockSkeleton>
     );
 };
-

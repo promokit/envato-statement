@@ -1,8 +1,9 @@
 import Envato from 'envato';
+import { createContext } from 'react';
+import { contextDefaults, periodDefaults } from '../model/defaults';
 import { Periods } from '../model/enums';
 import { Statements } from '../model/types';
 import { getPeriodsDates } from '../utils/time';
-import { periodDefaults } from '../model/defaults';
 
 const client = new Envato.Client(process.env.TOKEN || '');
 
@@ -13,10 +14,13 @@ const statements: Statements = {
     [Periods.Yesterday]: { ...periodDefaults },
     [Periods.CurrentWeek]: { ...periodDefaults },
     [Periods.PreviousWeek]: { ...periodDefaults },
+    [Periods.LastTwoWeeks]: { ...periodDefaults },
 };
 
 export const context = {
     client,
     periods,
-    statements
-}
+    statements,
+};
+
+export const StatementsContext = createContext(contextDefaults);

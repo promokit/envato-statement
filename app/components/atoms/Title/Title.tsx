@@ -1,10 +1,7 @@
-import './styles.css';
 type Props = {
-    children: string
-}
-
-const Title = ({children}: Props) => {
-    return <h2>{children}</h2>;
+    children: string;
 };
 
-export default Title;
+export const Title = ({ children }: Props) => {
+    return <h2 className="text-4xl font-bold">{children}</h2>;
+};

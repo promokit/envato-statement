@@ -1,4 +1,5 @@
-import { PeriodStatistics } from "./types";
+import { Periods } from './enums';
+import { PeriodStatistics, SortedSales } from './types';
 
 export const periodDefaults: PeriodStatistics = {
     expireAt: 0,
@@ -8,3 +9,22 @@ export const periodDefaults: PeriodStatistics = {
     ordersPerDay: [],
     salesList: [],
 };
+
+export const contextDefaults: SortedSales = {
+    [Periods.Today]: [],
+    [Periods.Yesterday]: [],
+    [Periods.LastTwoWeeks]: [],
+    [Periods.CurrentWeek]: [],
+    [Periods.PreviousWeek]: [],
+};
+
+export const saleObject: string[] = [
+    'amount',
+    'date',
+    'detail',
+    'item_id',
+    'quantity',
+    'order_id',
+    'other_party_city',
+    'other_party_country',
+];

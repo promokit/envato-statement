@@ -1,8 +1,8 @@
 const { TOKEN } = process.env;
 
 export const CLIENT_PARAMS = {
-  token: TOKEN,
-  userAgent: 'Promokit account statistics',
+    token: TOKEN,
+    userAgent: 'Promokit account statistics',
 };
 // elements classes/IDs
 export const WEEKDAY_CONTAINER = 'weekday';
@@ -27,7 +27,7 @@ export const CLOCK_CONTAINER = 'clock';
 export const HIDDEN_CLASS = 'hidden';
 export const LOADER_CLASS = 'loading';
 // configuration
-const timeout = 9;//parseInt(document.getElementById(TIMEOUT_ELEMENT).getAttribute('content'));
+const timeout = 9; //parseInt(document.getElementById(TIMEOUT_ELEMENT).getAttribute('content'));
 export const REFRESH_TIMEOUT = timeout * 1000; // refresh timeout in miliseconds
 export const AU_TIMEZONE = 'Australia/Sydney';
 export const SUITABLE_TIME_FORMAT = 'en-GB';
@@ -43,3 +43,15 @@ export const EXTENDED_SUPPORT = 'Extended Support'; // part of order title
 export const RENEWED_SUPPORT = 'Renewed Support'; // part of order title
 // assets
 export const AUDIO_FILE = '/ding.m4a';
+
+export const allowedKeys = [
+    'unique_id',
+    'date',
+    'order_id',
+    'type',
+    'detail',
+    'item_id',
+    'amount',
+    'other_party_country',
+    'other_party_city',
+];
