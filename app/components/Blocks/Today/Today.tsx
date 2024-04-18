@@ -6,7 +6,9 @@ import { Sales } from '../../atoms';
 import { BlockHeader } from '../BlockHeader/BlockHeader';
 
 export const Today = () => {
-    const { today } = useContext(StatementsContext);
+    const {
+        byPeriods: { today },
+    } = useContext(StatementsContext);
 
     const total = formatPrice(getTotal(today));
 

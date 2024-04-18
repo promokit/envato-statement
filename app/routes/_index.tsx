@@ -1,10 +1,10 @@
-import { useLoaderData } from '@remix-run/react';
-
 import { LoaderFunction, json } from '@remix-run/node';
-import { Today, Yesterday } from '../components/blocks';
+import { useLoaderData } from '@remix-run/react';
+import { LoaderFunctionArgs } from '@remix-run/server-runtime';
+import { CurrentWeek, PreviousWeek, Today, Yesterday } from '../components/blocks';
 import { StatementsContext } from '../context/context';
 import { mock } from '../model/mock';
-import { beautifyData, reducer, sortByPeriods } from '../utils';
+import { beautifyData, reducer, sortByPeriods, summarize } from '../utils';
 
 export const loader: LoaderFunction = async () => {
     // const statement = await fetchPeriods();
@@ -12,21 +12,25 @@ export const loader: LoaderFunction = async () => {
     const filtered = reducer(statement);
     const sortedByPeriods = sortByPeriods(filtered);
     const readyData = beautifyData(sortedByPeriods);
-    console.log(readyData);
+    const summary = summarize(readyData);
 
-    return json(readyData);
+    return json({ byPeriods: readyData, summary });
 };
 
+export function useInferredRouteData<T extends (args: LoaderFunctionArgs) => any>() {
+    return useLoaderData<Awaited<ReturnType<T>>>();
+}
+
 export default function Index() {
-    const statements = useLoaderData<typeof loader>();
+    const statements = useInferredRouteData<typeof loader>();
 
     return (
         <StatementsContext.Provider value={statements}>
             <main className="grid grid-cols-2 gap-48 w-9/12 max-w-6xl mx-auto my-12">
                 <Today />
                 <Yesterday />
-                {/* <CurrentWeek /> */}
-                {/* <PreviousWeek /> */}
+                <CurrentWeek />
+                <PreviousWeek />
             </main>
         </StatementsContext.Provider>
     );

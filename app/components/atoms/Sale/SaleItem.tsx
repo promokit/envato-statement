@@ -10,12 +10,13 @@ type Props = {
 
 export const SaleItem = ({ date, detail, amount, city, country }: Props) => (
     <div className="flex gap-3">
-        <time className="text-xl">{date}</time>
+        <time className="text-xl italic">{date}</time>
         <div className="grow">
-            <div className="flex items-end text-xl relative after:content-[' '] after:w-full after:h-0 after:border-b after:border-b-dashed after:border-b-black after:opacity-20 after:block after:absolute after:bottom-0 after:left-0">
-                <div className="items-baseline grow font-bold">
+            <div className="flex gap-2 items-baseline items-end text-xl relative  after:block after:absolute after:bottom-0 after:left-0">
+                <div className="items-baseline font-bold">
                     <span>{detail}</span>
                 </div>
+                <div className="grow border-b border-dashed border-b-black opacity-20"></div>
                 <div>
                     <strong>{formatPrice(amount)}</strong>
                 </div>

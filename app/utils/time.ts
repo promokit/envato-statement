@@ -8,10 +8,10 @@ import {
 import { PeriodRange, Periods } from '../model/enums';
 import { PeriodsList } from '../model/types';
 
-const ONEDAY = 86400;
+const ONEDAY = 86400000;
 
 export const getAUTime = (withTime: boolean = true): Date => {
-    const options = {
+    const options: Intl.DateTimeFormatOptions = {
         timeZone: AU_TIMEZONE,
         year: 'numeric',
         month: 'numeric',
@@ -19,7 +19,7 @@ export const getAUTime = (withTime: boolean = true): Date => {
         hour: 'numeric',
         minute: 'numeric',
         second: 'numeric',
-    } as object;
+    };
 
     const formattedDate = new Intl.DateTimeFormat(SUITABLE_TIME_FORMAT, options).format(new Date());
 
@@ -62,8 +62,14 @@ export const extractShortDate = (date: string): string => {
 export const getTodayShortDate = (): string => {
     const date = getAUTime();
     const dateCopy = new Date(date);
-    const shortDate = dateCopy.toISOString().split('T')[0];
-    return shortDate;
+    return dateCopy.toISOString().split('T')[0];
+};
+
+export const getYesterdayDate = (): string => {
+    const date = getAUTime();
+    const dateCopy = new Date(date);
+    const time = dateCopy.getTime();
+    return convertDateToString(new Date(time - ONEDAY));
 };
 
 const getTomorrowDate = (): Date => {
@@ -97,10 +103,6 @@ export const getLastSunday = (): string => {
     const dateCopy = new Date(date);
     dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM) - 1);
     return convertDateToString(dateCopy);
-};
-
-export const getYesterdayDate = (): string => {
-    return convertDateToString(new Date(getAUTime().getTime() - ONEDAY));
 };
 
 export const getLocalTimeOfOrder = (dateString: string | Date): string => {
@@ -231,7 +233,6 @@ export const getPeriodsDates = (): PeriodsList => ({
 });
 
 export const isToday = (date: string): boolean => {
-    // console.log('____________isToday');
     return extractShortDate(date) === getTodayShortDate();
 };
 

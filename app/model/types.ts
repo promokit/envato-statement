@@ -24,6 +24,12 @@ export type PeriodStatistics = {
     ordersPerDay: number[];
     expireAt: number;
 };
+
+export type Summary = {
+    detail: string;
+    quantity: number;
+};
+
 export type Period = {
     [PeriodRange.From]: string;
     [PeriodRange.To]: string;
@@ -39,6 +45,15 @@ export type PeriodsList = {
 
 export type SortedSales = {
     [key in Periods]: Sale[];
+};
+
+export type SalesSummary = {
+    [key in Periods]: Summary[];
+};
+
+export type LoaderResponse = {
+    byPeriods: SortedSales;
+    summary: SalesSummary;
 };
 
 export type SortedBlocks = Omit<SortedSales, Periods.LastTwoWeeks>;

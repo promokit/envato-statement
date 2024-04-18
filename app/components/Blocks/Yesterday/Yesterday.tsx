@@ -5,7 +5,9 @@ import { formatPrice, getTotal } from '../../../utils';
 import { Sales } from '../../atoms';
 
 export const Yesterday = () => {
-    const { yesterday } = useContext(StatementsContext);
+    const {
+        byPeriods: { yesterday },
+    } = useContext(StatementsContext);
 
     const total = formatPrice(getTotal(yesterday));
 

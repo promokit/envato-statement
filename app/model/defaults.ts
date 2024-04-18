@@ -1,5 +1,5 @@
 import { Periods } from './enums';
-import { PeriodStatistics, SortedSales } from './types';
+import { LoaderResponse, PeriodStatistics } from './types';
 
 export const periodDefaults: PeriodStatistics = {
     expireAt: 0,
@@ -10,12 +10,21 @@ export const periodDefaults: PeriodStatistics = {
     salesList: [],
 };
 
-export const contextDefaults: SortedSales = {
-    [Periods.Today]: [],
-    [Periods.Yesterday]: [],
-    [Periods.LastTwoWeeks]: [],
-    [Periods.CurrentWeek]: [],
-    [Periods.PreviousWeek]: [],
+export const contextDefaults: LoaderResponse = {
+    byPeriods: {
+        [Periods.Today]: [],
+        [Periods.Yesterday]: [],
+        [Periods.LastTwoWeeks]: [],
+        [Periods.CurrentWeek]: [],
+        [Periods.PreviousWeek]: [],
+    },
+    summary: {
+        [Periods.Today]: [],
+        [Periods.Yesterday]: [],
+        [Periods.LastTwoWeeks]: [],
+        [Periods.CurrentWeek]: [],
+        [Periods.PreviousWeek]: [],
+    },
 };
 
 export const saleObject: string[] = [

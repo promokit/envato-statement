@@ -1,5 +1,5 @@
 import { saleObject } from '../model/defaults';
-import { Sale } from '../model/types';
+import { Sale, SalesSummary, SortedBlocks, Summary } from '../model/types';
 
 export const combiner = (statements: Sale[]): Sale[] => {
     const combinedSales = statements.reduce((acc: Sale[], currentSale) => {
@@ -34,4 +34,24 @@ export const reducer = (statements: Sale[]): Sale[] => {
     const combinedSales = combiner(filtered);
 
     return combinedSales;
+};
+
+export const summarize = (sales: SortedBlocks): SalesSummary => {
+    return Object.entries(sales).reduce((acc: any, [period, data]) => {
+        acc[period] = data.reduce((result: Summary[], curr: Sale) => {
+            const existingDetail: Summary | undefined = result.find(
+                (item: any) => item.detail === curr.detail
+            );
+            if (existingDetail) {
+                existingDetail.quantity += curr.quantity;
+            } else {
+                result.push({ detail: curr.detail, quantity: curr.quantity });
+            }
+            // console.log('______');
+            // console.log(result);
+            // console.log('-------');
+            return result;
+        }, []);
+        return acc;
+    }, {});
 };

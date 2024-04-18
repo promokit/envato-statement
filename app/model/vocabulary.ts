@@ -14,9 +14,9 @@ export const convertItemTitle = (itemId: number, title: string, quantity: number
 
     // If order contains 3 sales, indicating a customer purchased an item + extended support
     if (quantity === EXT_ORDERS_NUMBER) {
-        suffix = `<small>${suffix ? suffix + ' + ' : ''}${EXTENDED_SUPPORT}</small>`;
+        suffix = ` (${suffix ? suffix + ' + ' : ''}${EXTENDED_SUPPORT})`;
     } else {
-        suffix = suffix ? `<small>${suffix}</small>` : '';
+        suffix = suffix ? ` (${suffix})` : '';
     }
 
     switch (itemId) {
@@ -26,12 +26,6 @@ export const convertItemTitle = (itemId: number, title: string, quantity: number
         case 23987794:
             return `Esox${suffix}`;
 
-        case 23767311:
-            return `CaseMag${suffix}`;
-
-        case 23395559:
-            return `AMP Module${suffix}`;
-
         case 21815895:
             return `Extended Customer Features${suffix}`;
 
@@ -40,12 +34,6 @@ export const convertItemTitle = (itemId: number, title: string, quantity: number
 
         case 21760985:
             return `Favorite Products${suffix}`;
-
-        case 20692635:
-            return `Lookbook${suffix}`;
-
-        case 18950303:
-            return `Hoki WP${suffix}`;
 
         case 19633702:
             return `Compare Products${suffix}`;
@@ -58,9 +46,6 @@ export const convertItemTitle = (itemId: number, title: string, quantity: number
 
         case 11225981:
             return `Hoki PSD${suffix}`;
-
-        case 11176873:
-            return `FullPage Slider${suffix}`;
 
         case 8743123:
             return `Venedor${suffix}`;
@@ -82,9 +67,6 @@ export const convertItemTitle = (itemId: number, title: string, quantity: number
 
         case 4510105:
             return `Trego PSD${suffix}`;
-
-        case 3775953:
-            return `Avena PSD${suffix}`;
 
         case 3309918:
             return `NiceStore PSD${suffix}`;
