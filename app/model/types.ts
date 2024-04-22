@@ -25,9 +25,15 @@ export type PeriodStatistics = {
     expireAt: number;
 };
 
+export type Total = {
+    quantity: number;
+    amount: number;
+};
+
 export type Summary = {
     detail: string;
     quantity: number;
+    amount: number;
 };
 
 export type Period = {
@@ -49,6 +55,10 @@ export type SortedSales = {
 
 export type SalesSummary = {
     [key in Periods]: Summary[];
+};
+
+export type SalesTotal = {
+    [key in Periods]: Total;
 };
 
 export type LoaderResponse = {

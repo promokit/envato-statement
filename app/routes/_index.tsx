@@ -1,20 +1,24 @@
 import { LoaderFunction, json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/server-runtime';
+import { mock } from '~/model';
 import { CurrentWeek, PreviousWeek, Today, Yesterday } from '../components/blocks';
 import { StatementsContext } from '../context/context';
-import { mock } from '../model/mock';
-import { beautifyData, reducer, sortByPeriods, summarize } from '../utils';
+import { beautifyData, calculateTotals, reducer, sortByPeriods, summarize } from '../utils';
 
 export const loader: LoaderFunction = async () => {
     // const statement = await fetchPeriods();
-    const statement = mock;
-    const filtered = reducer(statement);
-    const sortedByPeriods = sortByPeriods(filtered);
-    const readyData = beautifyData(sortedByPeriods);
-    const summary = summarize(readyData);
+    const statements = mock;
 
-    return json({ byPeriods: readyData, summary });
+    const reduced = reducer(statement);
+    const byPeriodsSorted = sortByPeriods(reduced);
+    const byPeriods = beautifyData(byPeriodsSorted);
+    // console.log(byPeriodsSorted);
+
+    const summary = summarize(byPeriods);
+    const totals = calculateTotals(summary);
+
+    return json({ byPeriods, summary, totals });
 };
 
 export function useInferredRouteData<T extends (args: LoaderFunctionArgs) => any>() {

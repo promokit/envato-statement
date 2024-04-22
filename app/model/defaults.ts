@@ -27,6 +27,14 @@ export const contextDefaults: LoaderResponse = {
     },
 };
 
+export const totalDefaults = {
+    [Periods.Today]: { quantity: 0, amount: 0 },
+    [Periods.Yesterday]: { quantity: 0, amount: 0 },
+    [Periods.CurrentWeek]: { quantity: 0, amount: 0 },
+    [Periods.PreviousWeek]: { quantity: 0, amount: 0 },
+    [Periods.LastTwoWeeks]: { quantity: 0, amount: 0 },
+};
+
 export const saleObject: string[] = [
     'amount',
     'date',

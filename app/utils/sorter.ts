@@ -1,6 +1,6 @@
+import { isCurrentWeek, isPreviousWeek, isToday, isYesterday } from '.';
 import { Periods } from '../model/enums';
 import type { Sale, SortedBlocks } from '../model/types';
-import { isCurrentWeek, isPreviousWeek, isToday, isYesterday } from './time';
 
 export const sortByPeriods = (statements: Sale[]): SortedBlocks => {
     return {

@@ -43,6 +43,7 @@ export const EXTENDED_SUPPORT = 'Extended Support'; // part of order title
 export const RENEWED_SUPPORT = 'Renewed Support'; // part of order title
 // assets
 export const AUDIO_FILE = '/ding.m4a';
+export const ONEDAY = 86400000; // ms
 
 export const allowedKeys = [
     'unique_id',

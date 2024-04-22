@@ -2,55 +2,48 @@ import {
     AU_TIMEZONE,
     CURRENCY_LOCALE,
     LOCAL_LOCALE,
+    ONEDAY,
+    PeriodRange,
+    Periods,
     SUITABLE_TIME_FORMAT,
     WEEKDAYS_NUM,
-} from '../model/constants';
-import { PeriodRange, Periods } from '../model/enums';
-import { PeriodsList } from '../model/types';
+} from '../model';
+import type { PeriodsList } from '../model/types';
 
-const ONEDAY = 86400000;
+const options: Intl.DateTimeFormatOptions = {
+    timeZone: AU_TIMEZONE,
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+};
 
 export const getAUTime = (withTime: boolean = true): Date => {
-    const options: Intl.DateTimeFormatOptions = {
-        timeZone: AU_TIMEZONE,
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-    };
-
     const formattedDate = new Intl.DateTimeFormat(SUITABLE_TIME_FORMAT, options).format(new Date());
 
     const [date, time] = formattedDate.split(' ');
     const [day, month, year] = date.split('/');
     const [hours, minutes, seconds] = time.split(':');
 
-    const dateShort: [number, number, number] = [parseInt(year), parseInt(month) - 1, parseInt(day)];
+    const fullDate = new Date(
+        Date.UTC(
+            parseInt(year),
+            parseInt(month) - 1,
+            parseInt(day),
+            parseInt(hours),
+            parseInt(minutes),
+            parseInt(seconds)
+        )
+    );
 
-    if (withTime) {
-        return new Date(...dateShort, parseInt(hours), parseInt(minutes), parseInt(seconds));
-    }
-
-    return new Date(...dateShort);
+    return fullDate;
 };
 
 export const getWeekDay = (): number => {
     const day = getAUTime().getDay();
     return day === 0 ? WEEKDAYS_NUM : day;
-};
-
-export const getNextMonday = (): Date => {
-    const date = getAUTime();
-    const dateCopy = new Date(date);
-    dateCopy.setDate(
-        dateCopy.getDate() + ((1 + WEEKDAYS_NUM - dateCopy.getDay()) % WEEKDAYS_NUM || WEEKDAYS_NUM)
-    );
-    dateCopy.setHours(0);
-    dateCopy.setMinutes(0);
-    dateCopy.setSeconds(0);
-    return dateCopy;
 };
 
 export const extractShortDate = (date: string): string => {
@@ -69,24 +62,19 @@ export const getYesterdayDate = (): string => {
     const date = getAUTime();
     const dateCopy = new Date(date);
     const time = dateCopy.getTime();
-    return convertDateToString(new Date(time - ONEDAY));
-};
+    const returnDate = convertDateToString(new Date(time - ONEDAY));
 
-const getTomorrowDate = (): Date => {
-    const date = getAUTime();
-    const dateCopy = new Date(date);
-    dateCopy.setDate(date.getDate() + 1);
-    dateCopy.setHours(0);
-    dateCopy.setMinutes(0);
-    dateCopy.setSeconds(0);
-    return dateCopy;
+    return returnDate;
 };
 
 export const getDateOfLastMonday = () => {
     const date = getAUTime();
     const dateCopy = new Date(date);
+
     dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM));
-    return dateCopy;
+    const lastMonday = resetTime(dateCopy);
+
+    return lastMonday;
 };
 
 export const getDateOfLastMondayString = () => convertDateToString(getDateOfLastMonday());
@@ -95,7 +83,8 @@ export const getDateOfMondayWeekAgo = (): string => {
     const date = getAUTime();
     const dateCopy = new Date(date);
     dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM) - WEEKDAYS_NUM);
-    return convertDateToString(dateCopy);
+    const prevMonday = resetTime(dateCopy);
+    return convertDateToString(prevMonday);
 };
 
 export const getLastSunday = (): string => {
@@ -105,35 +94,11 @@ export const getLastSunday = (): string => {
     return convertDateToString(dateCopy);
 };
 
-export const getLocalTimeOfOrder = (dateString: string | Date): string => {
-    // parse date string
-    if (typeof dateString === 'object') {
-        // get first 5 characters from locale time string
-        return dateString.toLocaleTimeString(LOCAL_LOCALE).slice(0, 5);
-    }
-    const [date, time, offset] = dateString.split(' ');
-    const [year, month, day] = date.split('-');
-    const [hour, minute, second] = time.split(':');
-    // local time offset (Poland +1 hour) in Miliseconds
-    const localTimeOffset = new Date().getTimezoneOffset() * 60 * 1000;
-    // Australian time zone (+11 Hours) in Miliseconds
-    const AUTimeOffset = (parseInt(offset) / 100) * 60 * 60 * 1000;
-    // get difference between time zones in Miliseconds (10 hours in summer time)
-    const timeDifference = AUTimeOffset + localTimeOffset;
-    // Australian order time in miliseconds
-    const AUOrderTime = new Date(
-        parseInt(year),
-        parseInt(month) - 1,
-        parseInt(day),
-        parseInt(hour),
-        parseInt(minute),
-        parseInt(second)
-    ).getTime();
-
-    // get local time of order in miliseconds
-    const localOrderTimeinMilisec = AUOrderTime - timeDifference;
-    // return string of local order time
-    return new Date(localOrderTimeinMilisec).toLocaleTimeString(LOCAL_LOCALE).slice(0, 5); // get first 5 characters from locale time string
+export const getLastSundayObj = (): Date => {
+    const date = getAUTime();
+    const dateCopy = new Date(date);
+    dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM) - 1);
+    return resetTime(dateCopy);
 };
 
 export const getClockTime = (): string => {
@@ -189,24 +154,89 @@ export const convertDateToString = (date: Date, getTime: boolean = false): strin
     return `${year}-${month}-${day}${time}`;
 };
 
-export const getExpirationDate = (period: Periods): number => {
-    switch (period) {
-        case Periods.Today:
-            return 0;
-        case Periods.Yesterday:
-            return getTomorrowDate().getTime();
-        case Periods.CurrentWeek:
-            return 0;
-        case Periods.PreviousWeek:
-            return getNextMonday().getTime();
-        default:
-            return 0;
-    }
-};
-
 export const getDayStringForGraph = (date: string): string => {
     const newDate = new Date(convertDateStringToMiliseconds(date));
     return convertDateToString(newDate);
+};
+
+export const getLocalTimeOfOrder = (dateString: string | Date): string => {
+    // parse date string
+    if (typeof dateString === 'object') {
+        // get first 5 characters from locale time string
+        return dateString.toLocaleTimeString(LOCAL_LOCALE).slice(0, 5);
+    }
+    console.log(dateString);
+
+    const [date, time, offset] = dateString.split('T');
+    const [year, month, day] = date.split('-');
+    const [hour, minute, second] = time.split(':');
+    // local time offset (Poland +1 hour) in Miliseconds
+    const localTimeOffset = new Date().getTimezoneOffset() * 60 * 1000;
+
+    // Australian time zone (+11 Hours) in Miliseconds
+    const AUTimeOffset = 11 * 60 * 60 * 1000;
+    // get difference between time zones in Miliseconds (10 hours in summer time)
+    const timeDifference = AUTimeOffset + localTimeOffset;
+    // Australian order time in miliseconds
+    const AUOrderTime = new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(day),
+        parseInt(hour),
+        parseInt(minute),
+        parseInt(second)
+    ).getTime();
+
+    // get local time of order in miliseconds
+    const localOrderTimeinMilisec = AUOrderTime - timeDifference;
+    // return string of local order time
+    return new Date(localOrderTimeinMilisec).toLocaleTimeString(LOCAL_LOCALE).slice(0, 5); // get first 5 characters from locale time string
+};
+
+const resetTime = (sourceDate: Date): Date => {
+    const formattedDate = new Intl.DateTimeFormat(SUITABLE_TIME_FORMAT, options).format(sourceDate);
+
+    const [date] = formattedDate.split(' ');
+    const [day, month, year] = date.split('/');
+
+    return new Date(Date.UTC(parseInt(year), parseInt(month) - 1, parseInt(day), 0, 0, 0));
+};
+
+export const isToday = (date: string): boolean => {
+    const d = new Date(date);
+    const TimeOffset = 8 * 60 * 60 * 1000;
+    const shift = d.getTime() + TimeOffset;
+    const newdate = new Date(shift);
+    const saleLocalDate = newdate.toISOString().split('T')[0];
+
+    return saleLocalDate === getTodayShortDate();
+};
+
+export const isYesterday = (date: string): boolean => {
+    return extractShortDate(date) === getYesterdayDate();
+};
+
+export const isCurrentWeek = (dateStr: string): boolean => {
+    const date = new Date(dateStr);
+    const dateToday = getAUTime();
+
+    const currentWeekStartRaw = getAUTime();
+    currentWeekStartRaw.setDate(dateToday.getDate() - dateToday.getDay());
+    const currentWeekStart = resetTime(currentWeekStartRaw);
+
+    return date >= currentWeekStart && date <= dateToday;
+};
+export const isPreviousWeek = (dateStr: string): boolean => {
+    const date = new Date(dateStr);
+
+    const lastMonday = getDateOfLastMonday();
+    const lastSunday = getLastSundayObj();
+
+    const previousWeekStart = new Date(lastSunday);
+    previousWeekStart.setDate(lastSunday.getDate() - 6);
+    const previousWeekEnd = new Date(lastMonday);
+
+    return date >= previousWeekStart && date <= previousWeekEnd;
 };
 
 export const getPeriodsDates = (): PeriodsList => ({
@@ -231,31 +261,3 @@ export const getPeriodsDates = (): PeriodsList => ({
         [PeriodRange.To]: convertDateToString(getAUTime()),
     },
 });
-
-export const isToday = (date: string): boolean => {
-    return extractShortDate(date) === getTodayShortDate();
-};
-
-export const isYesterday = (date: string): boolean => {
-    return extractShortDate(date) === getYesterdayDate();
-};
-export const isCurrentWeek = (dateStr: string): boolean => {
-    const date = new Date(dateStr);
-    const dateToday = getAUTime();
-
-    const currentWeekStart = getAUTime();
-    currentWeekStart.setDate(dateToday.getDate() - dateToday.getDay());
-
-    return date >= currentWeekStart && date <= dateToday;
-};
-export const isPreviousWeek = (dateStr: string): boolean => {
-    const date = new Date(dateStr);
-
-    const lastMonday = getDateOfLastMonday();
-
-    const previousWeekStart = new Date(lastMonday);
-    previousWeekStart.setDate(lastMonday.getDate() - 6);
-    const previousWeekEnd = new Date(lastMonday);
-
-    return date >= previousWeekStart && date <= previousWeekEnd;
-};

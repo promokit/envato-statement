@@ -1,5 +1,4 @@
-import { SortedBlocks } from '../model/types';
-import { convertItemTitle } from '../model/vocabulary';
+import { SortedBlocks, convertItemTitle } from '../model';
 
 export const beautifyData = (data: SortedBlocks): SortedBlocks => {
     const readyData = { ...data };
@@ -9,7 +8,7 @@ export const beautifyData = (data: SortedBlocks): SortedBlocks => {
             [period]: sales.map((sale) => ({
                 ...sale,
                 detail: convertItemTitle(sale.item_id, sale.detail, sale.quantity),
-                date: sale.date.substring(11, 16),
+                date: sale.date.toString().substring(11, 16),
             })),
         });
     }

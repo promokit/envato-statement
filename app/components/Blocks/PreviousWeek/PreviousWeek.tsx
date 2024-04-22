@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { BlockHeader, BlockSkeleton } from '..';
-import { Summary } from '../../../components/atoms/Summary/Summary';
 import { StatementsContext } from '../../../context/context';
+import { SummaryBlock } from '../../atoms';
 
 export const PreviousWeek = () => {
     const {
@@ -14,11 +14,7 @@ export const PreviousWeek = () => {
         <BlockSkeleton>
             <>
                 <BlockHeader amount={'$123.00'} num={5} title="Previous Week" />
-                <div>
-                    {previousweek.map(({ detail, quantity }) => (
-                        <Summary quantity={quantity} detail={detail} />
-                    ))}
-                </div>
+                <SummaryBlock weekData={previousweek} />
                 <div className="average">Average: $45.60/day</div>
             </>
         </BlockSkeleton>
