@@ -1,4 +1,6 @@
 export * from './Average/Average';
+export * from './BlockHeader/BlockHeader';
+export * from './BlockSkeleton/BlockSkeleton';
 export * from './Sale/SaleItem';
 export * from './Sales/Sales';
 export * from './Subtitle/Subtitle';

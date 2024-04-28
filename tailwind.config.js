@@ -2,7 +2,10 @@
 export default {
     content: ['./public/**/*.html', './app/**/*.{js,ts,jsx,tsx}'],
     theme: {
-        extend: {},
+        fontFamily: {
+            tinos: ['Tinos', 'serif'],
+            opensans: ['Open Sans', 'sans-serif'],
+        },
     },
     plugins: [],
     mode: 'jit',

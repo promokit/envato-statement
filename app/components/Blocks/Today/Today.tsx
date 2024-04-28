@@ -1,8 +1,7 @@
 import { useContext } from 'react';
-import { BlockHeader, BlockSkeleton } from '..';
 import { StatementsContext } from '../../../context/context';
 import { getTotal } from '../../../utils';
-import { Sales } from '../../atoms';
+import { BlockHeader, BlockSkeleton, Sales } from '../../atoms';
 
 export const Today = () => {
     const {
@@ -14,7 +13,7 @@ export const Today = () => {
     return (
         <BlockSkeleton>
             <>
-                <BlockHeader amount={total} quantity={today.length} title="Today" />
+                <BlockHeader amount={total} quantity={today.length} title="Sunday" />
                 <Sales period={today} />
             </>
         </BlockSkeleton>

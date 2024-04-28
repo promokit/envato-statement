@@ -1,5 +1,4 @@
-import { BlockHeader, BlockSkeleton } from '..';
-import { Average, SummaryBlock } from '../../../components/atoms';
+import { Average, BlockHeader, BlockSkeleton, SummaryBlock } from '../../../components/atoms';
 import { Summary, Total } from '../../../model';
 
 type Props = {

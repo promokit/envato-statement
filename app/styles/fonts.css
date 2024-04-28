@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Tinos';
+    src: url('/fonts/Tinos-700.woff2');
+    font-style: normal;
+    font-display: swap;
+    size-adjust: 115.3%;
+}
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/fonts/OpenSans-700.woff2');
+    font-style: normal;
+    font-display: swap;
+    size-adjust: 115.3%;
+}
