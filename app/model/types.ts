@@ -1,15 +1,21 @@
+import { IStatementResponse } from 'envato';
 import { PeriodRange, Periods } from './enums';
 
-export type Sale = {
-    amount: number;
-    date: string;
-    detail: string;
-    item_id: number;
-    quantity: number;
-    order_id: number;
-    other_party_city: string;
-    other_party_country: string;
-};
+export type Results = IStatementResponse['results'];
+export type Result = Results[0];
+
+type SaleExtension = { quantity: number; time: string };
+
+type AllowedProps =
+    | 'amount'
+    | 'date'
+    | 'detail'
+    | 'item_id'
+    | 'order_id'
+    | 'other_party_city'
+    | 'other_party_country';
+
+export type Sale = Pick<Result, AllowedProps> & SaleExtension;
 
 export type StatementResponse = {
     count: number;
@@ -64,6 +70,7 @@ export type SalesTotal = {
 export type LoaderResponse = {
     byPeriods: SortedSales;
     summary: SalesSummary;
+    totals: SalesTotal;
 };
 
 export type SortedBlocks = Omit<SortedSales, Periods.LastTwoWeeks>;

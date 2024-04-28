@@ -1,19 +1,26 @@
 import { LoaderFunction, json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { LoaderFunctionArgs } from '@remix-run/server-runtime';
-import { mock } from '~/model';
 import { CurrentWeek, PreviousWeek, Today, Yesterday } from '../components/blocks';
 import { StatementsContext } from '../context/context';
-import { beautifyData, calculateTotals, reducer, sortByPeriods, summarize } from '../utils';
+import { LoaderResponse, contextDefaults } from '../model';
+import { beautifyData, calculateTotals, fetchPeriods, reducer, sortByPeriods, summarize } from '../utils';
 
 export const loader: LoaderFunction = async () => {
-    // const statement = await fetchPeriods();
-    const statements = mock;
+    const statement = await fetchPeriods();
+    // const statement = mock;
+    // console.log(statement);
+
+    if (!statement) {
+        return json(contextDefaults);
+    }
 
     const reduced = reducer(statement);
+    // console.log(reduced);
     const byPeriodsSorted = sortByPeriods(reduced);
-    const byPeriods = beautifyData(byPeriodsSorted);
+
     // console.log(byPeriodsSorted);
+    const byPeriods = beautifyData(byPeriodsSorted);
+    // console.log(byPeriods);
 
     const summary = summarize(byPeriods);
     const totals = calculateTotals(summary);
@@ -21,12 +28,8 @@ export const loader: LoaderFunction = async () => {
     return json({ byPeriods, summary, totals });
 };
 
-export function useInferredRouteData<T extends (args: LoaderFunctionArgs) => any>() {
-    return useLoaderData<Awaited<ReturnType<T>>>();
-}
-
 export default function Index() {
-    const statements = useInferredRouteData<typeof loader>();
+    const statements: LoaderResponse = useLoaderData<typeof loader>();
 
     return (
         <StatementsContext.Provider value={statements}>

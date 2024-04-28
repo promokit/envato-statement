@@ -1,24 +1,18 @@
 import { useContext } from 'react';
-import { BlockHeader, BlockSkeleton } from '..';
-import { Average, SummaryBlock } from '../../../components/atoms';
+import { WeekSummary } from '..';
 import { StatementsContext } from '../../../context/context';
+import { getWeekDay } from '../../../utils';
 
 export const CurrentWeek = () => {
-    const {
-        summary: { currentweek },
-    } = useContext(StatementsContext);
-    // const summary = summarize(currentweek);
-
-    // const total = formatPrice(getTotal(currentweek));
-    const total = '$72';
+    const { totals, summary } = useContext(StatementsContext);
+    const days = getWeekDay();
 
     return (
-        <BlockSkeleton>
-            <>
-                <BlockHeader amount={total} num={5} title="Current Week" />
-                <SummaryBlock weekData={currentweek} />
-                <Average amount={12} />
-            </>
-        </BlockSkeleton>
+        <WeekSummary
+            title="Current Week"
+            summary={summary.currentweek}
+            totals={totals.currentweek}
+            days={days}
+        />
     );
 };

@@ -6,7 +6,7 @@ type Props = { weekData: Summary[] };
 export const SummaryBlock = ({ weekData }: Props) => (
     <div className="flex flex-col gap-5">
         {weekData.map(({ detail, quantity }) => (
-            <SummaryItem quantity={quantity} detail={detail} />
+            <SummaryItem key={detail} quantity={quantity} detail={detail} />
         ))}
     </div>
 );

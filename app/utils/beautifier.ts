@@ -1,3 +1,4 @@
+import { shiftTimeToLocal } from '.';
 import { SortedBlocks, convertItemTitle } from '../model';
 
 export const beautifyData = (data: SortedBlocks): SortedBlocks => {
@@ -8,7 +9,7 @@ export const beautifyData = (data: SortedBlocks): SortedBlocks => {
             [period]: sales.map((sale) => ({
                 ...sale,
                 detail: convertItemTitle(sale.item_id, sale.detail, sale.quantity),
-                date: sale.date.toString().substring(11, 16),
+                time: shiftTimeToLocal(sale.date.toISOString().substring(11, 16)),
             })),
         });
     }

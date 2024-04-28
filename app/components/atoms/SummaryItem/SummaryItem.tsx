@@ -1,7 +1,6 @@
-type Props = {
-    detail: string;
-    quantity: number;
-};
+import { Sale } from '~/model';
+
+type Props = Pick<Sale, 'detail' | 'quantity'>;
 
 export const SummaryItem = ({ detail, quantity }: Props) => (
     <div className="flex gap-2 items-baseline items-end text-xl relative  after:block after:absolute after:bottom-0 after:left-0">

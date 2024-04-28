@@ -1,7 +1,12 @@
+import { Sale } from '.';
 import { isExtendedSupport, isRenewedSupport } from '../utils';
 import { EXTENDED_SUPPORT, EXT_ORDERS_NUMBER, RENEWED_SUPPORT } from './constants';
 
-export const convertItemTitle = (itemId: number, title: string, quantity: number): string => {
+export const convertItemTitle = (
+    itemId: Sale['item_id'],
+    title: Sale['detail'],
+    quantity: Sale['quantity']
+): string => {
     let suffix = '';
 
     if (isRenewedSupport(title)) {

@@ -96,6 +96,7 @@ export const getLastSunday = (): string => {
 
 export const getLastSundayObj = (): Date => {
     const date = getAUTime();
+
     const dateCopy = new Date(date);
     dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM) - 1);
     return resetTime(dateCopy);
@@ -194,41 +195,62 @@ export const getLocalTimeOfOrder = (dateString: string | Date): string => {
 };
 
 const resetTime = (sourceDate: Date): Date => {
-    const formattedDate = new Intl.DateTimeFormat(SUITABLE_TIME_FORMAT, options).format(sourceDate);
+    // const formattedDate = sourceDate.format(sourceDate);
+    // console.log(formattedDate);
 
-    const [date] = formattedDate.split(' ');
-    const [day, month, year] = date.split('/');
+    // const [date] = formattedDate.split(' ');
+    // const [day, month, year] = date.split('/');
 
-    return new Date(Date.UTC(parseInt(year), parseInt(month) - 1, parseInt(day), 0, 0, 0));
+    return new Date(Date.UTC(sourceDate.getFullYear(), sourceDate.getMonth(), sourceDate.getDate(), 0, 0, 0));
 };
 
-export const isToday = (date: string): boolean => {
-    const d = new Date(date);
-    const TimeOffset = 8 * 60 * 60 * 1000;
-    const shift = d.getTime() + TimeOffset;
+export const shiftTimeToLocal = (timeString: string): string => {
+    const [hours, minutes] = timeString.split(':').map(Number);
+
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+
+    date.setHours(date.getHours() + 2);
+
+    const updatedHours = String(date.getHours()).padStart(2, '0');
+    const updatedMinutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${updatedHours}:${updatedMinutes}`;
+};
+
+const TimeOffset = 10 * 60 * 60 * 1000; // need to calculate time shift
+
+export const isToday = (date: Date): boolean => {
+    const shift = date.getTime() + TimeOffset;
     const newdate = new Date(shift);
+
     const saleLocalDate = newdate.toISOString().split('T')[0];
+    // console.log('today:', getTodayShortDate(), newdate);
 
     return saleLocalDate === getTodayShortDate();
 };
 
-export const isYesterday = (date: string): boolean => {
-    return extractShortDate(date) === getYesterdayDate();
+export const isYesterday = (date: Date): boolean => {
+    const shift = date.getTime() + TimeOffset;
+    const newdate = new Date(shift);
+    const saleLocalDate = newdate.toISOString().split('T')[0];
+    // console.log('yesterday:', getYesterdayDate(), saleLocalDate);
+
+    return saleLocalDate === getYesterdayDate();
 };
 
-export const isCurrentWeek = (dateStr: string): boolean => {
-    const date = new Date(dateStr);
+export const isCurrentWeek = (date: Date): boolean => {
     const dateToday = getAUTime();
+    const currentWeekStart = getDateOfLastMonday();
 
-    const currentWeekStartRaw = getAUTime();
-    currentWeekStartRaw.setDate(dateToday.getDate() - dateToday.getDay());
-    const currentWeekStart = resetTime(currentWeekStartRaw);
+    const shift = date.getTime() + TimeOffset;
+    const newdate = new Date(shift);
 
-    return date >= currentWeekStart && date <= dateToday;
+    return newdate >= currentWeekStart && newdate <= dateToday;
 };
-export const isPreviousWeek = (dateStr: string): boolean => {
-    const date = new Date(dateStr);
 
+export const isPreviousWeek = (date: Date): boolean => {
     const lastMonday = getDateOfLastMonday();
     const lastSunday = getLastSundayObj();
 
@@ -236,7 +258,10 @@ export const isPreviousWeek = (dateStr: string): boolean => {
     previousWeekStart.setDate(lastSunday.getDate() - 6);
     const previousWeekEnd = new Date(lastMonday);
 
-    return date >= previousWeekStart && date <= previousWeekEnd;
+    const shift = date.getTime() + TimeOffset;
+    const newdate = new Date(shift);
+
+    return newdate >= previousWeekStart && newdate <= previousWeekEnd;
 };
 
 export const getPeriodsDates = (): PeriodsList => ({

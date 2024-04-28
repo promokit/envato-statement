@@ -1,5 +1,5 @@
 import { Periods } from './enums';
-import { LoaderResponse, PeriodStatistics } from './types';
+import { LoaderResponse, PeriodStatistics, Sale } from './types';
 
 export const periodDefaults: PeriodStatistics = {
     expireAt: 0,
@@ -10,23 +10,6 @@ export const periodDefaults: PeriodStatistics = {
     salesList: [],
 };
 
-export const contextDefaults: LoaderResponse = {
-    byPeriods: {
-        [Periods.Today]: [],
-        [Periods.Yesterday]: [],
-        [Periods.LastTwoWeeks]: [],
-        [Periods.CurrentWeek]: [],
-        [Periods.PreviousWeek]: [],
-    },
-    summary: {
-        [Periods.Today]: [],
-        [Periods.Yesterday]: [],
-        [Periods.LastTwoWeeks]: [],
-        [Periods.CurrentWeek]: [],
-        [Periods.PreviousWeek]: [],
-    },
-};
-
 export const totalDefaults = {
     [Periods.Today]: { quantity: 0, amount: 0 },
     [Periods.Yesterday]: { quantity: 0, amount: 0 },
@@ -35,7 +18,21 @@ export const totalDefaults = {
     [Periods.LastTwoWeeks]: { quantity: 0, amount: 0 },
 };
 
-export const saleObject: string[] = [
+const statementsList = {
+    [Periods.Today]: [],
+    [Periods.Yesterday]: [],
+    [Periods.LastTwoWeeks]: [],
+    [Periods.CurrentWeek]: [],
+    [Periods.PreviousWeek]: [],
+};
+
+export const contextDefaults: LoaderResponse = {
+    byPeriods: { ...statementsList },
+    summary: { ...statementsList },
+    totals: { ...totalDefaults },
+};
+
+export const saleObject: (keyof Sale)[] = [
     'amount',
     'date',
     'detail',

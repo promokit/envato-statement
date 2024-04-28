@@ -44,15 +44,3 @@ export const RENEWED_SUPPORT = 'Renewed Support'; // part of order title
 // assets
 export const AUDIO_FILE = '/ding.m4a';
 export const ONEDAY = 86400000; // ms
-
-export const allowedKeys = [
-    'unique_id',
-    'date',
-    'order_id',
-    'type',
-    'detail',
-    'item_id',
-    'amount',
-    'other_party_country',
-    'other_party_city',
-];

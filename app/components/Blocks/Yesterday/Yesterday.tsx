@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { BlockHeader, BlockSkeleton } from '..';
 import { StatementsContext } from '../../../context/context';
-import { formatPrice, getTotal } from '../../../utils';
+import { getTotal } from '../../../utils';
 import { Sales } from '../../atoms';
 
 export const Yesterday = () => {
@@ -9,12 +9,12 @@ export const Yesterday = () => {
         byPeriods: { yesterday },
     } = useContext(StatementsContext);
 
-    const total = formatPrice(getTotal(yesterday));
+    const total = getTotal(yesterday);
 
     return (
         <BlockSkeleton>
             <>
-                <BlockHeader amount={total} num={yesterday.length} title="Yesterday" />
+                <BlockHeader amount={total} quantity={yesterday.length} title="Yesterday" />
                 <Sales period={yesterday} />
             </>
         </BlockSkeleton>
