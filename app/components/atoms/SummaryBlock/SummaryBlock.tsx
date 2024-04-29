@@ -1,5 +1,5 @@
-import type { Summary } from '~/model';
 import { SummaryItem } from '..';
+import type { Summary } from '../../../model';
 
 type Props = { weekData: Summary[] };
 

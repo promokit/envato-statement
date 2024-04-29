@@ -523,7 +523,7 @@ export const mock: IStatementResponse['results'] = [
         site: 'themeforest.net',
         other_party_country: 'Italy',
         other_party_region: 'Pavia',
-        other_party_city: 'Voghera',
+        other_party_city: 'Voghera1',
         other_party_zipcode: '27058',
     },
 ];

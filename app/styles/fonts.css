@@ -3,6 +3,15 @@
     src: url('/fonts/Tinos-700.woff2');
     font-style: normal;
     font-display: swap;
+    font-weight: 700;
+    size-adjust: 115.3%;
+}
+@font-face {
+    font-family: 'Tinos';
+    src: url('/fonts/Tinos-700-italic.woff2');
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
     size-adjust: 115.3%;
 }
 @font-face {

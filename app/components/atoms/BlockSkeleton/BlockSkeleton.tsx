@@ -1,7 +1,7 @@
-type ComponentType = {
+type Props = {
     children: JSX.Element;
 };
 
-export const BlockSkeleton = ({ children }: ComponentType) => {
-    return <section className="flex flex-col gap-8">{children}</section>;
-};
+export const BlockSkeleton = ({ children }: Props) => (
+    <section className="flex flex-col gap-8">{children}</section>
+);

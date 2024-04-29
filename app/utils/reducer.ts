@@ -35,8 +35,6 @@ export const reducer = (statements: Results): Sale[] => {
             if (saleObject.includes(key as keyof Sale)) {
                 if (key === 'amount') {
                     acc.amount = applyEnvatoFee(item.amount, item.detail);
-                } else if (key === 'details') {
-                    acc.details = acc.details.includes('extended') ? acc.details : value;
                 } else {
                     acc[key] = value;
                 }

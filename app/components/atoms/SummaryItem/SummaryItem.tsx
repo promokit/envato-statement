@@ -1,4 +1,4 @@
-import { Sale } from '~/model';
+import { Sale } from '../../../model';
 
 type Props = Pick<Sale, 'detail' | 'quantity'>;
 

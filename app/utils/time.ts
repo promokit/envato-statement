@@ -20,6 +20,8 @@ const options: Intl.DateTimeFormatOptions = {
     second: 'numeric',
 };
 
+const TimeOffset = 10 * 60 * 60 * 1000; // need to calculate time shift
+
 export const getAUTime = (withTime: boolean = true): Date => {
     const formattedDate = new Intl.DateTimeFormat(SUITABLE_TIME_FORMAT, options).format(new Date());
 
@@ -68,11 +70,18 @@ export const getYesterdayDate = (): string => {
 };
 
 export const getDateOfLastMonday = () => {
+    // const shift = date.getTime() + TimeOffset;
+    // const date = new Date(shift);
+
     const date = getAUTime();
+
     const dateCopy = new Date(date);
 
+    // console.log('____', dateCopy);
     dateCopy.setDate(date.getDate() - ((date.getDay() + 6) % WEEKDAYS_NUM));
+    // console.log('++++', dateCopy);
     const lastMonday = resetTime(dateCopy);
+    // console.log('!!!!', lastMonday);
 
     return lastMonday;
 };
@@ -155,6 +164,11 @@ export const convertDateToString = (date: Date, getTime: boolean = false): strin
     return `${year}-${month}-${day}${time}`;
 };
 
+export const getDay = () => {
+    const date = new Date();
+    return date.toLocaleDateString(SUITABLE_TIME_FORMAT, { weekday: 'long' });
+};
+
 export const getDayStringForGraph = (date: string): string => {
     const newDate = new Date(convertDateStringToMiliseconds(date));
     return convertDateToString(newDate);
@@ -200,8 +214,7 @@ const resetTime = (sourceDate: Date): Date => {
 
     // const [date] = formattedDate.split(' ');
     // const [day, month, year] = date.split('/');
-
-    return new Date(Date.UTC(sourceDate.getFullYear(), sourceDate.getMonth(), sourceDate.getDate(), 0, 0, 0));
+    return new Date(sourceDate.getFullYear(), sourceDate.getMonth(), sourceDate.getDate(), 0, 0, 0);
 };
 
 export const shiftTimeToLocal = (timeString: string): string => {
@@ -218,8 +231,6 @@ export const shiftTimeToLocal = (timeString: string): string => {
 
     return `${updatedHours}:${updatedMinutes}`;
 };
-
-const TimeOffset = 10 * 60 * 60 * 1000; // need to calculate time shift
 
 export const isToday = (date: Date): boolean => {
     const shift = date.getTime() + TimeOffset;
@@ -246,6 +257,7 @@ export const isCurrentWeek = (date: Date): boolean => {
 
     const shift = date.getTime() + TimeOffset;
     const newdate = new Date(shift);
+    // console.log(newdate, currentWeekStart, dateToday);
 
     return newdate >= currentWeekStart && newdate <= dateToday;
 };
