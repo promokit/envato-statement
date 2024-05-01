@@ -86,6 +86,39 @@ export const getDateOfLastMonday = () => {
     return lastMonday;
 };
 
+export const getPrevMonthBegining = <T>(isString = false): T => {
+    const today = getAUTime();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    const previousYear = month === 0 ? year - 1 : year;
+    const previousMonth = month === 0 ? 11 : month - 1;
+
+    const firstDayOfPreviousMonth = new Date(Date.UTC(previousYear, previousMonth, 1));
+
+    return (isString ? convertDateToString(firstDayOfPreviousMonth) : firstDayOfPreviousMonth) as T;
+};
+
+export const getCurrentMonthBegining = <T>(isString = false): T => {
+    const today = getAUTime();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    // Create a new Date object for the first day of the current month
+    const firstDayOfCurrentMonth = new Date(Date.UTC(year, month, 1));
+
+    return (isString ? convertDateToString(firstDayOfCurrentMonth) : firstDayOfCurrentMonth) as T;
+};
+
+export const getPreviousMonthEnd = <T>(isString = false): T => {
+    const firstDayOfCurrentMonth = getCurrentMonthBegining<Date>();
+
+    const lastDayOfPreviousMonth = new Date(firstDayOfCurrentMonth.getTime() - 1);
+    const dateString = lastDayOfPreviousMonth.toISOString().split('T')[0];
+
+    return (isString ? dateString : lastDayOfPreviousMonth) as T;
+};
+
 export const getDateOfLastMondayString = () => convertDateToString(getDateOfLastMonday());
 
 export const getDateOfMondayWeekAgo = (): string => {
@@ -154,7 +187,7 @@ export const convertDateStringToMiliseconds = (dateString: string | Date): numbe
 
 export const convertDateToString = (date: Date, getTime: boolean = false): string => {
     const [year, month, day] = [
-        date.getFullYear().toString(),
+        date.getFullYear(),
         (date.getMonth() + 1).toString().padStart(2, '0'),
         date.getDate().toString().padStart(2, '0'),
     ];
@@ -180,7 +213,6 @@ export const getLocalTimeOfOrder = (dateString: string | Date): string => {
         // get first 5 characters from locale time string
         return dateString.toLocaleTimeString(LOCAL_LOCALE).slice(0, 5);
     }
-    console.log(dateString);
 
     const [date, time, offset] = dateString.split('T');
     const [year, month, day] = date.split('-');
@@ -276,6 +308,26 @@ export const isPreviousWeek = (date: Date): boolean => {
     return newdate >= previousWeekStart && newdate <= previousWeekEnd;
 };
 
+export const isCurrentMonth = (date: Date): boolean => {
+    const dateToday = getAUTime();
+    const currentMonthStart = getCurrentMonthBegining<Date>();
+
+    const shift = date.getTime() + TimeOffset;
+    const shiftedDate = new Date(shift);
+
+    return shiftedDate >= currentMonthStart && shiftedDate <= dateToday;
+};
+
+export const isPreviousMonth = (date: Date): boolean => {
+    const dateToday = getAUTime();
+    const prevMonthStart = getPrevMonthBegining<Date>();
+
+    const shift = date.getTime() + TimeOffset;
+    const shiftedDate = new Date(shift);
+
+    return shiftedDate >= prevMonthStart && shiftedDate <= dateToday;
+};
+
 export const getPeriodsDates = (): PeriodsList => ({
     [Periods.Today]: {
         [PeriodRange.From]: convertDateToString(getAUTime()),
@@ -293,8 +345,16 @@ export const getPeriodsDates = (): PeriodsList => ({
         [PeriodRange.From]: getDateOfMondayWeekAgo(),
         [PeriodRange.To]: getLastSunday(),
     },
-    [Periods.LastTwoWeeks]: {
-        [PeriodRange.From]: getDateOfMondayWeekAgo(),
+    [Periods.CurrentMonth]: {
+        [PeriodRange.From]: getCurrentMonthBegining<string>(true),
+        [PeriodRange.To]: convertDateToString(getAUTime()),
+    },
+    [Periods.PreviousMonth]: {
+        [PeriodRange.From]: getPrevMonthBegining<string>(true),
+        [PeriodRange.To]: getPreviousMonthEnd<string>(true),
+    },
+    [Periods.LastTwoMonths]: {
+        [PeriodRange.From]: getPrevMonthBegining<string>(true),
         [PeriodRange.To]: convertDateToString(getAUTime()),
     },
 });

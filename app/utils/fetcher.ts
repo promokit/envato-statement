@@ -4,7 +4,7 @@ import { getPeriodsDates } from './time';
 
 export const fetchPeriods = async (): Promise<IStatementResponse['results'] | null> => {
     const periods = getPeriodsDates();
-    const statements = await fetchData(periods.lasttwoweeks);
+    const statements = await fetchData(periods.lasttwomonths);
 
     return statements?.results || null;
 };

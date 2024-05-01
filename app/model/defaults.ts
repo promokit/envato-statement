@@ -15,15 +15,19 @@ export const totalDefaults = {
     [Periods.Yesterday]: { quantity: 0, amount: 0 },
     [Periods.CurrentWeek]: { quantity: 0, amount: 0 },
     [Periods.PreviousWeek]: { quantity: 0, amount: 0 },
-    [Periods.LastTwoWeeks]: { quantity: 0, amount: 0 },
+    [Periods.CurrentMonth]: { quantity: 0, amount: 0 },
+    [Periods.PreviousMonth]: { quantity: 0, amount: 0 },
+    [Periods.LastTwoMonths]: { quantity: 0, amount: 0 },
 };
 
 const statementsList = {
     [Periods.Today]: [],
     [Periods.Yesterday]: [],
-    [Periods.LastTwoWeeks]: [],
+    [Periods.LastTwoMonths]: [],
     [Periods.CurrentWeek]: [],
     [Periods.PreviousWeek]: [],
+    [Periods.CurrentMonth]: [],
+    [Periods.PreviousMonth]: [],
 };
 
 export const contextDefaults: LoaderResponse = {

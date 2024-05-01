@@ -1,13 +1,17 @@
 import { LoaderFunction, json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+
 import { CurrentWeek, PreviousWeek, Today, Yesterday } from '../components/blocks';
 import { StatementsContext } from '../context/context';
-import { LoaderResponse, contextDefaults } from '../model';
-import { beautifyData, calculateTotals, fetchPeriods, reducer, sortByPeriods, summarize } from '../utils';
+import { LoaderResponse, contextDefaults, mock } from '../model';
+import { beautifyData, calculateTotals, getPeriodsDates, reducer, sortByPeriods, summarize } from '../utils';
 
 export const loader: LoaderFunction = async () => {
-    const statement = await fetchPeriods();
-    // const statement = mock;
+    const periods = getPeriodsDates();
+    console.log(periods);
+
+    // const statement = await fetchPeriods();
+    const statement = mock;
     // console.log(statement);
 
     if (!statement) {

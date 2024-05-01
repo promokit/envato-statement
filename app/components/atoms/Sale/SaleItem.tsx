@@ -16,8 +16,8 @@ export const SaleItem = ({ time, detail, amount, other_party_city, other_party_c
                     <strong>{formatPrice(amount)}</strong>
                 </div>
             </div>
-            <div className="italic capitalize font-tinos">
-                {other_party_city}, {other_party_country}
+            <div className="italic capitalize font-tinos text-sm text-slate-400">
+                {other_party_city?.toLowerCase()}, {other_party_country?.toLowerCase()}
             </div>
         </div>
     </div>

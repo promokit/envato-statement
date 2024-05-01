@@ -4,7 +4,7 @@ import { PeriodRange, Periods } from './enums';
 export type Results = IStatementResponse['results'];
 export type Result = Results[0];
 
-type SaleExtension = { quantity: number; time: string };
+type SaleExtension = { quantity: number; time: string; [key: string]: string | number | Date | null };
 
 type AllowedProps =
     | 'amount'
@@ -73,4 +73,4 @@ export type LoaderResponse = {
     totals: SalesTotal;
 };
 
-export type SortedBlocks = Omit<SortedSales, Periods.LastTwoWeeks>;
+export type SortedBlocks = Omit<SortedSales, Periods.LastTwoMonths>;

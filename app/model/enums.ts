@@ -12,7 +12,9 @@ export enum Periods {
     Yesterday = 'yesterday',
     CurrentWeek = 'currentweek',
     PreviousWeek = 'previousweek',
-    LastTwoWeeks = 'lasttwoweeks',
+    CurrentMonth = 'currentmonth',
+    PreviousMonth = 'previousmonth',
+    LastTwoMonths = 'lasttwomonths',
 }
 
 export enum Toggler {

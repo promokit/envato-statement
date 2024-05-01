@@ -45,7 +45,6 @@ export const reducer = (statements: Results): Sale[] => {
 
     // combine sales with the same ID into one
     const combinedSales = combiner(filtered);
-    // const combinedSales = filtered;
 
     return combinedSales;
 };
