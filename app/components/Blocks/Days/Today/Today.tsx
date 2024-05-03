@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { StatementsContext } from '../../../context/context';
-import { getDay, getTotal } from '../../../utils';
-import { BlockHeader, BlockSkeleton, Sales } from '../../atoms';
+import { StatementsContext } from '../../../../context/context';
+import { getDay, getTotal } from '../../../../utils';
+import { BlockHeader, BlockSkeleton, Sales } from '../../../atoms';
 
 export const Today = () => {
     const {

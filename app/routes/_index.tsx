@@ -1,17 +1,32 @@
 import { LoaderFunction, json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import { CurrentWeek, PreviousWeek, Today, Yesterday } from '../components/blocks';
+import {
+    CurrentMonth,
+    CurrentWeek,
+    PreviousMonth,
+    PreviousWeek,
+    Today,
+    Yesterday,
+} from '../components/blocks';
 import { StatementsContext } from '../context/context';
-import { LoaderResponse, contextDefaults, mock } from '../model';
-import { beautifyData, calculateTotals, getPeriodsDates, reducer, sortByPeriods, summarize } from '../utils';
+import { LoaderResponse, contextDefaults } from '../model';
+import {
+    beautifyData,
+    calculateTotals,
+    fetchPeriods,
+    getPeriodsDates,
+    reducer,
+    sortByPeriods,
+    summarize,
+} from '../utils';
 
 export const loader: LoaderFunction = async () => {
     const periods = getPeriodsDates();
-    console.log(periods);
+    // console.log(periods);
 
-    // const statement = await fetchPeriods();
-    const statement = mock;
+    const statement = await fetchPeriods();
+    // const statement = mock;
     // console.log(statement);
 
     if (!statement) {
@@ -37,11 +52,13 @@ export default function Index() {
 
     return (
         <StatementsContext.Provider value={statements}>
-            <main className="grid grid-cols-2 gap-48 w-9/12 max-w-6xl mx-auto my-12">
+            <main className="grid grid-cols-2 gap-x-48 gap-y-24 w-9/12 max-w-6xl mx-auto my-12">
                 <Today />
                 <Yesterday />
                 <CurrentWeek />
                 <PreviousWeek />
+                <CurrentMonth />
+                <PreviousMonth />
             </main>
         </StatementsContext.Provider>
     );

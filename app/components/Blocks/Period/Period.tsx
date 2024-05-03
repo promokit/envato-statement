@@ -1,5 +1,5 @@
-import { Average, BlockHeader, BlockSkeleton, SummaryBlock } from '../../../components/atoms';
 import { Summary, Total } from '../../../model';
+import { Average, BlockHeader, BlockSkeleton, SummaryBlock } from '../../atoms';
 
 type Props = {
     title: string;
@@ -8,7 +8,7 @@ type Props = {
     days: number;
 };
 
-export const WeekSummary = ({ title, summary, totals: { amount, quantity }, days }: Props) => (
+export const Period = ({ title, summary, totals: { amount, quantity }, days }: Props) => (
     <BlockSkeleton>
         <>
             <BlockHeader amount={amount} quantity={quantity} title={title} />
